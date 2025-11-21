@@ -5,12 +5,12 @@ channels:
 dependencies:
 - python=3.11.14
 - ipykernel=6.31.0
-- pandas=2.3.3
+- pandas=2.0.3
 - requests=2.32.5
 - seaborn=0.13.2
 - matplotlib=3.10.6
 - scikit-learn=1.7.2
-- altair=5.5.0
+- altair-all=5.4.*
 - pip=25.3
 - pip:
   - altair-ally==0.1.1
