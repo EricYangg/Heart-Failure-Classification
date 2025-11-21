@@ -13,4 +13,4 @@ dependencies:
 - altair=5.5.0
 - pip=25.3
 - pip:
-  - altair-ally=0.1.1
+  - altair-ally==0.1.1
