@@ -155,7 +155,7 @@ express Statement of Purpose.
 # License for GitHub Workflows
 
 ============================
-Except where otherwise noted, the example programs and other software provided in the AI_bias_in_farming repository are made available under the MIT license.
+Except where otherwise noted, the example programs and other software provided in the Heart_Failure_Classification repository are made available under the MIT license.
 
 The original GitHub Workflows code was copied from the ttimbers/dsci522-dockerfile-practice/docker-publish.yml repository:
 <https://github.com/ttimbers/dsci522-dockerfile-practice.git>
