@@ -10,7 +10,7 @@ The [dataset](https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv) us
 
 ## Report
 
-The final report can be found here [report](heart_disease_analysis.ipynb)
+The final report can be found here [report](reports/heart_disease_analysis.pdf)
 
 ## Usage
 For the first time running the project, install the conda lock from the root of this repository:
