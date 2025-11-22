@@ -1,1 +1,54 @@
 # Heart-Failure-Classification
+
+Authors: Omar Ramos, Mara Sanchez, Eric Yang
+
+## About
+
+In this analysis, we explored various classification models with the intent of predicting whether a patient is at risk of heart failure based on clinical data and lifestyle factors of individuals. After evaluating multiple models through cross-validation, we selected Logistic Regression as our final model due to its overall superior performance across classification metrics. The model demonstrated promising results on the unseen test set, with an accuracy of 86% and F1-scores of 0.88 for the positive class (at risk) and 0.84 for the negative class (not at risk). From the 276 observations in the test set, the model correctly identified 144 cases at risk and 97 not at risk, reporting 23 false positives and 12 false negatives (cases predicted as not at risk when there is risk). Although the scores are encouraging for a first iteration, there is room for improvement to optimize the hyperparameters and the model's threshold settings to minimize false negative cases, which are critical in medical applications. Overall, this model shows potential to support clinical professionals in the assessment of patients during screening. 
+
+The [dataset](https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv) used in this project is pulled from a repository of the [University of Minho,  Portugal](https://www.uminho.pt/EN/student-life/campi/Pages/Description.aspx). The dataset was created by Federico Soriano Palacios (2021), it integrates five different heart-related datasets combined over 11 common features that can be used to predict a possible heart disease. The five data sets are part of the [“Heart Disease” dataset](https://archive.ics.uci.edu/dataset/45/heart+disease) (Janosi _et al._, 1989) that can be found in the UCI Machine Learning Repository  that is originally sourced from the Hungarian Institute of Cardiology, the University Hospital of Zurich, the University Hospital of Basel, the V.A. Medical Center of Long Beach and Cleveland Clinic Foundation. Each row of the dataset contains 11 attributes that describe the patient’s age, sex, chest pain type, resting blood pressure, serum cholesterol, fasting blood sugar, resting ECG result, maximum heart rate achieved, exercise induced angina, ST depression induced by exercise relative to rest, slope of the peak exercise ST segment, and the presence or absence of heart disease. 
+
+## Report
+
+The final report can be found here [report](heart_disease_analysis.ipynb)
+
+## Usage
+For the first time running the project, install the conda lock from the root of this repository:
+
+``` bash
+conda-lock install --name heart-failure-classification conda-lock.yml
+```
+
+To run the analysis, open Jupyter Lab from the root of this repository:
+
+``` bash
+jupyter lab 
+```
+
+Open notebooks/heart_disease_analysis.ipynb in Jupyter Lab and under Switch/Select Kernel choose "Python [conda env:heart-failure-classification]".
+
+Next, under the "Kernel" menu click "Restart Kernel and Run All Cells...".
+
+## Dependencies
+
+- `conda` (version 23.9.0 or higher)
+- `conda-lock` (version 2.5.7 or higher)
+- `jupyterlab` (version 4.0.0 or higher)
+- `nb_conda_kernels` (version 2.3.1 or higher)
+- Python and packages listed in [`environment.yml`](environment.yml)
+
+## License
+
+The Heart Failure Classification project are licensed under the [Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) License](https://creativecommons.org/licenses/by-nc-sa/4.0/). Check out the [license file](LICENSE.md) for more information. If re-using/re-mixing please provide attribution and link to this webpage.
+The software code contained within this repository is licensed under the MIT license. Check out the [license file](LICENSE.md) for more information.
+
+
+## References
+
+Dua, Dheeru, and Casey Graff. 2017. “UCI Machine Learning Repository.” University of California, Irvine, School of Information; Computer Sciences. <http://archive.ics.uci.edu/ml>.
+
+Janosi, A., Steinbrunn, W., Pfisterer, M., & Detrano, R. (1989). Heart Disease [Dataset]. UCI Machine Learning Repository. <https://doi.org/10.24432/C52P4X>.
+
+Savarese, G., Lund, L. H., & Becher, P. M. (2023). Global burden of heart failure: A comprehensive and updated review of epidemiology. Cardiovascular Research, 118(17), 3272–3287. <https://doi.org/10.1093/cvr/cvac013https://pubmed.ncbi.nlm.nih.gov/35150240/>
+
+Barnett, M. P., Koppes, L. L. J., & … [et al.]. (2020). Cardiovascular risk factors: It’s time to focus on variability! Frontiers in Cardiovascular Medicine, 7, Article 80. <https://doi.org/10.3389/fcvm.2020.00080(PMC published version) https://pmc.ncbi.nlm.nih.gov/articles/PMC7379092/>
