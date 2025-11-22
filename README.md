@@ -13,13 +13,13 @@ The [dataset](https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv) us
 The final report can be found here [report](heart_disease_analysis.ipynb)
 
 ## Usage
-First time running the project, run the following from the root of this repository:
+For the first time running the project, install the conda lock from the root of this repository:
 
 ``` bash
 conda-lock install --name heart-failure-classification conda-lock.yml
 ```
 
-To run the analysis, run the following from the root of this repository:
+To run the analysis, open Jupyter Lab from the root of this repository:
 
 ``` bash
 jupyter lab 
