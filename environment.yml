@@ -6,14 +6,14 @@ dependencies:
 - python=3.11.14
 - ipykernel=6.31.0
 - pandas=2.3.3
-- numpy=1.26.4
 - requests=2.32.5
 - seaborn=0.13.2
 - matplotlib=3.10.6
 - scikit-learn=1.7.2
-- altair-all=5.4.*
-- pandera=0.20.4
+- altair-all=5.4.1
+- pandera=0.27.0
+- numpy=1.26.4
 - pip=25.3
 - pip:
   - altair-ally==0.1.1
-  - deepchecks==0.18.1
+  - deepchecks==0.19.1
