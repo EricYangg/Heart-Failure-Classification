@@ -42,7 +42,7 @@ Copy and paste that URL into your browser.
 
 <img src="img/jupyter-container-web-app-launch-url.jpeg" width=400>
 
-3. To run the analysis, open `src/heart_disease_analysis.ipynb` in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
+3. To run the analysis, open `notebooks/heart_disease_analysis.ipynb` in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
 
 #### Clean up
 
