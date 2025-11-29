@@ -71,19 +71,24 @@ Copy and paste that URL into your browser.
 
 ## Usage (conda-lock)
 
-For the first time running the project **locally**, install the conda lock from the root of this repository:
+1. For the first time running the project **locally**, install the conda lock from the root of this repository:
 
 ``` bash
 conda-lock install --name heart-failure-classification conda-lock.yml
 ```
+2. Switch to the project's environment by running the following line from the terminal:
 
-To run the analysis, open Jupyter Lab from the root of this repository:
+``` bash
+conda activate heart-failure-classification
+```
+
+3. To run the analysis, open Jupyter Lab from the root of this repository:
 
 ``` bash
 jupyter lab 
 ```
 
-Open `notebooks/heart_disease_analysis.ipynb` in Jupyter Lab and under `Switch/Select Kernel` choose "Python [conda env:heart-failure-classification]".
+4. Open `notebooks/heart_disease_analysis.ipynb` in Jupyter Lab and under `Switch/Select Kernel` choose "Python [conda env:heart-failure-classification]".
 
 Next, under the "Kernel" menu click "Restart Kernel and Run All Cells...".
 
