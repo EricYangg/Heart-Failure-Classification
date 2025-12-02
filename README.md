@@ -1,4 +1,4 @@
-# Heart-Failure-Classification
+# Heart Failure Classification
 
 Authors: Omar Ramos, Mara Sanchez, Eric Yang
 
