@@ -8,6 +8,11 @@ import requests
 
 def read_file(url, directory):
     """
+    # Title: Function to read a zip file from the given URL and extract its contents to the specified directory.
+    # Author: Tiffany Timbers
+    # Source: https://github.com/ttimbers/breast-cancer-predictor/blob/2.0.0/scripts/download_data.py
+    # Taken from: breast-cancer-predictor version 2.0.0
+    
     Download a CSV file from the provided URL and save it to the specified directory.
 
     Parameters:
