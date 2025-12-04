@@ -42,7 +42,27 @@ Copy and paste that URL into your browser.
 
 <img src="img/jupyter-container-web-app-launch-url.jpeg" width=400>
 
-3. To run the analysis, open `notebooks/heart_disease_analysis.ipynb` in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
+3. To run the analysis, open a terminal and run the following commands:
+```
+python scripts/download_data.py \
+--url="https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv" \
+--write_to=data/raw
+
+python scripts/validate_n_split.py \
+--logs-to=logs \
+--raw-data=data/raw/heart.csv \
+--data-to=data/validated \
+--seed=123
+
+python scripts/eda.py \
+--data-from data/validated/train_df.csv \
+--plot-to results/figures
+
+python scripts/preprocess_validate.py \
+--training-data data/validated/train_df.csv \
+--preprocessor-to results/models \
+--seed 123
+```
 
 #### Clean up
 
