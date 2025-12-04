@@ -98,16 +98,10 @@ def main(logs_to, raw_data, data_to, seed):
         
     # Create the split    
     train_df, test_df = train_test_split(validated_data, test_size=0.3)
-    X_train = train_df.drop(columns=["HeartDisease"])
-    X_test = test_df.drop(columns=["HeartDisease"])
-    y_train = train_df["HeartDisease"]
-    y_test = test_df["HeartDisease"]
   
     # Save the files in the path given
-    X_train.to_csv(os.path.join(data_to, "X_train.csv"), index=False)
-    X_test.to_csv(os.path.join(data_to, "X_test.csv"), index=False)
-    y_train.to_csv(os.path.join(data_to, "y_train.csv"), index=False)
-    y_test.to_csv(os.path.join(data_to, "y_test.csv"), index=False)
+    train_df.to_csv(os.path.join(data_to, "heart_train.csv"), index=False)
+    test_df.to_csv(os.path.join(data_to, "heart_test.csv"), index=False)
 
 if __name__ == '__main__':
     main()
