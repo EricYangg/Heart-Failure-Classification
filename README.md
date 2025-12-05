@@ -55,10 +55,12 @@ python scripts/validate_n_split.py \
 --seed=123
 
 python scripts/eda.py \
---data-from=data/validated/heart_train.csv \
+--training-data=data/validated/heart_train.csv
+--test-data=data/validated/heart_test.csv
 --plot-to=results/figures
+--data-to=data/validated
 
-python scripts/preprocess_validate.py \
+python scripts/preprocessor.py \
 --training-data=data/validated/heart_train.csv \
 --preprocessor-to=results/models \
 --seed=123
