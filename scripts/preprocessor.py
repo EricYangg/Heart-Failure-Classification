@@ -32,7 +32,7 @@ def main(training_data, preprocessor_to, seed):
                    sparse_output=False
                   ), categorical_features),
     )
-    pickle.dump(preprocessor, open(os.path.join(preprocessor_to, 'preprocessor.pkl'), 'wb'))
+    pickle.dump(preprocessor, open(os.path.join(preprocessor_to, 'heart_preprocessor.pickle'), 'wb'))
 
 if __name__ == '__main__':
     main()
