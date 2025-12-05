@@ -1,0 +1,89 @@
+---
+title: "Classifying patients at risk for heart failure using clinical data"
+author: "Mara Sánchez, Eric Yang & Omar Ramos"
+date: "2025/11/21"
+jupyter: python3
+format: 
+    html:
+        toc: true
+        toc-depth: 2
+    pdf:
+        toc: true
+        toc-depth: 2
+bibliography: references.bib
+execute:
+  echo: false
+  warning: false
+editor: source
+---
+
+# Summary
+
+In this analysis, we explored various classification models with the intent of predicting whether a patient is at risk of heart failure based on clinical data and lifestyle factors of individuals. After evaluating multiple models through cross-validation, we selected Logistic Regression as our final model due to its overall superior performance across classification metrics. The model demonstrated promising results on the unseen test set, with an accuracy of 86% and F1-scores of 0.88 for the positive class (at risk) and 0.84 for the negative class (not at risk). From the 276 observations in the test set, the model correctly identified 144 cases at risk and 97 not at risk, reporting 23 false positives and 12 false negatives (cases predicted as not at risk when there is risk). Although the scores are encouraging for a first iteration, there is room for improvement to optimize the hyperparameters and the model's threshold settings to minimize false negative cases, which are critical in medical applications. Overall, this model shows potential to support clinical professionals in the assessment of patients during screening. 
+
+# Introduction
+
+Cardiovascular diseases (CVDs) represent the leading cause of death worldwide, responsible for an estimate of 19.8 million deaths in 2022 and accounting for one-third of all deaths globally in people under the age of 70 ([World Health Organization, 2025](https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds))). Most CVDs have proven to have a big correlation with an individual’s behavior, habits and environment ([American Heart Association, 2025](https://professional.heart.org/-/media/phd-files-2/science-news/2/2025-heart-and-stroke-stat-update/factsheets/2025-stats-update-fact-sheet-global-burden-of-disease.pdf)). Heart Failure (HF) is a multi-faceted and life-threatening syndrome where the heart’s ability to pump and/or fill with blood is reduced, it is estimated to affect more than 64 million people globally ([Savarese _et al._, 2022](hhttps://pubmed.ncbi.nlm.nih.gov/35150240/)). Risk factors such as high blood pressure, high blood glucose levels or pre-existing diseases require early intervention to avoid the risk of developing heart failure and other complications. Since many of these risk factors are clinically measurable and changeable, early intervention is highly possible and a critical opportunity in contributing to a patient's well-being.
+
+This issue leads to the question of whether a machine learning (ML) model could reliably classify patients as ‘at-risk’ or ‘not-at-risk’ for heart failure based on clinical and lifestyle features. The study of this question is important because traditional risk assessment methods tend to overlook the variability and the complexity of the risk factors, meaning that subjectivity from healthcare professionals could also impact the outcome of the assessment ([Barnett _et al._, 2020](https://pmc.ncbi.nlm.nih.gov/articles/PMC7379092/)). Missing the early detection of risk of HF could lead to chronic and progressive conditions associated with increase in mortality and decrease in quality of life. Additionally, ML algorithms could offer significant advantages in predicting risk of HF, when integrating it to clinical practice it could allow for a more personalized treatment for the patient [@Kokori2025]. 
+
+# Methods
+
+The [dataset](https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv)  used in this project is pulled from a repository of the [University of Minho,  Portugal](https://www.uminho.pt/EN/student-life/campi/Pages/Description.aspx). The dataset was created by Federico Soriano Palacios (2021), it integrates five different heart-related datasets combined over 11 common features that can be used to predict a possible heart disease. The five data sets are part of the [“Heart Disease” dataset](https://archive.ics.uci.edu/dataset/45/heart+disease) (Janosi _et al._, 1989) that can be found in the UCI Machine Learning Repository  that is originally sourced from the Hungarian Institute of Cardiology, the University Hospital of Zurich, the University Hospital of Basel, the V.A. Medical Center of Long Beach and Cleveland Clinic Foundation. Each row of the dataset contains 11 attributes that describe the patient’s age, sex, chest pain type, resting blood pressure, serum cholesterol, fasting blood sugar, resting ECG result, maximum heart rate achieved, exercise induced angina, ST depression induced by exercise relative to rest, slope of the peak exercise ST segment, and the presence or absence of heart disease. 
+
+To build the classification model for the prediction of heart failure risk, an exploratory data analysis was conducted. Considering the distribution of the data, the features and their correlation to the target variable, it was decided to include all of them in the model with some standardization to improve results. Data was split into 70% for the training set and 30% for the test set. Different approaches were taken to evaluate which model would have the best accuracy in classification.  We trained five different models, including Decision Tree, k-nearest neighbors (k-nn), Support Vector Machine (SVC) with an RBF kernel, Logistic Regression, and a Dummy Classifier (baseline). Each of the models were evaluated using a 5-fold cross-validation strategy. Model performance was evaluated using metrics such as accuracy, precision, recall, and F1-score. The model with the highest performance scores across all metrics is the Logistic Regression which is the model that will be used for the rest of the project. The Python programming language (Van Rossum and Drake 2009) and the following Python packages were used to perform the analysis: NumPy (Harris et al. 2020), pandas (McKinney 2010), Matplotlib (Hunter 2007), seaborn (Waskom 2021), Altair (VanderPlas et al. 2018), scikit-learn (Pedregosa et al. 2011), and requests (Reitz 2011).
+
+# Results & Discussion
+
+We conducted some initial exploratory data analysis by observing the number of observations, data types of the features, and checked for missing values. We also inspected the categorical counts for some features to better understand their distribution. The distribution of the target variable was observed to be balanced with approximately equal representation of both classes.
+
+To evaluate the usefulness of each feature to predict the heart disease, we investigated the distribution of each feature with respect to the target variable. We also visualized the correlation between features using a heatmap to identify any strong relationships.
+
+## Value Ranges for Data Validation
+
+For the numerical features, reasonable value ranges were established to support data validation. Age typically falls between 20 and 90 years, while resting blood pressure generally ranges from 80 to 230 mm Hg. Cholesterol levels are commonly observed between 50 and 400 mm/dl; values near 50 may indicate malnutrition, whereas values above 400 are rare and may represent noise in the dataset. FastingBS is a binary indicator that takes the value 1 when fasting blood sugar exceeds 120 mg/dl and 0 otherwise. The MaxHR (maximum heart rate achieved) usually ranges from 60 to 202 beats per minute. Oldpeak, which reflects ST depression induced by exercise relative to rest, can take values from approximately –4 mm to +6 mm; negative values indicate further ST depression during exercise, positive values indicate ST elevation, and zero indicates no change.
+
+For the categorical features, Sex can be either F or M, while ChestPainType includes TA (typical angina), ATA (atypical angina), NAP (non-anginal pain), and ASY (asymptomatic). The RestingECG feature may take the values Normal, ST (indicating an ST–T wave abnormality), or LVH (suggesting left ventricular hypertrophy). ExerciseAngina is recorded as Y or N, and ST_Slope describes the slope of the peak-exercise ST segment, taking the values Up or Flat.
+
+![Boxplots of Numeric Features.](../results/figures/boxplots_numeric_features.png){#fig-feature_box_plot width=80%}
+
+![Distribution of categorical predictors, coloured by heart disease status.](../results/figures/numeric_dist_combined.png){#fig-numeric_dist_plot width=80%}
+
+![Comparison of numerical predictors, coloured by heart disease status.](../results/figures/categorical_dist_combined.png){#fig-categorical_dist_plot width=80%}
+
+![Correlation heatmap of all numerical features in the dataset.](../results/figures/correlation_heatmap_numeric_features.png){#fig-correlation_heatmap width=80%}
+
+We are not dropping any features as all features seem to be relevant to predicting heart disease based on the EDA.
+
+## Models Evaluation
+
+We decided to initiate our analysis considering a set of classification models including Decision Tree, kNN, SVM (with RBF kernel), Logistic Regression, and a dummy classifier as a baseline. 
+All models were trained and evaluated using a 5-fold cross-validation strategy. The performance classification metrics used to evaluate the models were accuracy, precision, recall and F1-score.
+
+Initially, the models were trained using default hyperparameters to define a model that would be further optimized in subsequent steps for this project.
+
+The configuration and results of the cross-validations are detailed below:
+
+_Table 1. Cross-validation 5-folds results for all models._
+
+After performing the cross-validation, we observed that both the Logistic Regression and SVM models had the best performance across all metrics, with Logistic Regression slightly outperforming SVM all-around. 
+
+Based on this, we decided to choose the Logistic Regression model as our final model for predicting heart disease risk. 
+
+_Figure 4. Confusion matrix for Logistic Regression model - Train set._
+
+## Evaluation on Test Set
+
+_Table 2. Classification Report for Test Set._
+
+_Figure 5. Confusion matrix for Logistic Regression model - Test set._
+
+The initial results of the Logistic Regression prediction model on the test set showed good performance across all metrics, as detailed in Table 2. This matched our expectations based on the cross-validation results, indicating that the model would generalize well on unseen data. This is already a positive outcome for a first iteration of the model and provides a solid foundation for further improvements. It also has the potential to be useful as a support tool for clinical screening of patients.
+
+Aside from the hyperparameter tuning that will be explored on future stages, this use case is well suited for Precision-Recall and Receiver Operating Characteristic (ROC) curve analysis to further evaluate the model's threshold settings and trade-offs between precision and recall. This is a medical-related application, and it is crucial to minimize false negatives i.e., predicting a patient is not at risk when they actually are. Also, making the probability scores available for the predictions could increase the model's utility, supporting the decision-making of healthcare professionals. 
+
+It is important to note that this project has certain limitations. The dataset used is relatively old and is based in Europe. There has been evidence that baseline heart-disease risk varies across racial and ethnic groups (Lewsey & Breathett, 2021) which limits how well our results generalize to broader populations. Additionally, because we are relying on logistic regression, the model is not able to capture complex or non-linear relationships between the features and the target.
+
+Finally, we could review the features coefficients from the Logistic Regression model to understand their influence on the predictions, enabling to better interpret the model's decisions and confirm if we could drop any features in future iterations.
+
+# References

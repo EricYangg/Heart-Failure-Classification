@@ -64,6 +64,18 @@ python scripts/preprocessor.py \
 --training-data=data/validated/heart_train.csv \
 --preprocessor-to=results/models \
 --seed=123
+
+python scripts/fit_heart_disease_model.py \
+--x-train-data=data/validated/X_train.csv \
+--y-train-data=data/validated/y_train.csv \
+--x-test-data=data/validated/X_test.csv \
+--y-test-data=data/validated/y_test.csv \
+--preprocessor=results/models/heart_preprocessor.pickle \
+--pipeline-to=results/models \
+--results-to=results/tables \
+--figures-to=results/figures \
+--seed=123 \
+--cv-folds=5
 ```
 
 #### Clean up
