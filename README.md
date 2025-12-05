@@ -42,7 +42,41 @@ Copy and paste that URL into your browser.
 
 <img src="img/jupyter-container-web-app-launch-url.jpeg" width=400>
 
-3. To run the analysis, open `notebooks/heart_disease_analysis.ipynb` in Jupyter Lab you just launched and under the "Kernel" menu click "Restart Kernel and Run All Cells..."
+3. To run the analysis, open a terminal and run the following commands:
+```
+python scripts/download_data.py \
+--url="https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv" \
+--write_to=data/raw
+
+python scripts/validate_n_split.py \
+--logs-to=logs \
+--raw-data=data/raw/heart.csv \
+--data-to=data/validated \
+--seed=123
+
+python scripts/eda_validate.py
+--training-data=data/validated/heart_train.csv
+--test-data=data/validated/heart_test.csv
+--plot-to=results/figures
+--data-to=data/validated
+
+python scripts/preprocessor.py \
+--training-data=data/validated/heart_train.csv \
+--preprocessor-to=results/models \
+--seed=123
+
+python scripts/fit_heart_disease_model.py \
+--x-train-data=data/validated/X_train.csv \
+--y-train-data=data/validated/y_train.csv \
+--x-test-data=data/validated/X_test.csv \
+--y-test-data=data/validated/y_test.csv \
+--preprocessor=results/models/heart_preprocessor.pickle \
+--pipeline-to=results/models \
+--results-to=results/tables \
+--figures-to=results/figures \
+--seed=123 \
+--cv-folds=5
+```
 
 #### Clean up
 
