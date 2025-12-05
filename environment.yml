@@ -16,6 +16,8 @@ dependencies:
 - notebook=6.5.4
 - ipykernel=6.31.0
 - jupyterlab=4.0.2
+- click=8.3.1
+- quarto=1.5.57
 - pip=25.3
 - pip:
   - altair-ally==0.1.1
