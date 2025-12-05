@@ -21,17 +21,6 @@ from sklearn.metrics import ConfusionMatrixDisplay, classification_report
 from sklearn.exceptions import UndefinedMetricWarning
 warnings.filterwarnings("ignore", category=UndefinedMetricWarning)
 
-# FIX WARNINGS!
-
-# Variables
-# Define Classification Metrics for scoring
-
-# PENDING TO REPLACE PATH WITH PARAMETER AND MOVE TO MAIN()!!
-# preprocessor = pickle.load(open("results/models/heart_preprocessor.pickle", "rb"))
-# X_train = pd.read_csv("data/processed/X_train.csv")
-# y_train = pd.read_csv("data/processed/y_train.csv")
-
-
 # --- Start of code block copied from another author ---
 # Title: Function to consolidate cross validation scores into a pandas series.
 # Author: Varada Kolhatkar & Michael Gelbart
@@ -62,7 +51,8 @@ def mean_std_cross_val_scores(model, X_train, y_train, **kwargs):
     out_col = []
 
     for i in range(len(mean_scores)):
-        out_col.append((f"%0.3f (+/- %0.3f)" % (mean_scores.iloc[i], std_scores.iloc[i])))
+        out_col.append((f"%0.3f (+/- %0.3f)" % (mean_scores.iloc[i], 
+                                                std_scores.iloc[i])))
 
     return pd.Series(data=out_col, index=mean_scores.index)
 # --- End of code block copied from another author ---
@@ -87,10 +77,7 @@ def build_pipe(preprocessor, model):
     """
     return make_pipeline(preprocessor, model)
 
-# def main(train_data, preprocessor, columns_to_drop, pipeline_to, results_to, seed):
-
 @click.command()
-# @click.option('--train-data', type=str, help="Relative path to read training data")
 @click.option('--x-train-data', type=str, help="Relative path to read X training data")
 @click.option('--y-train-data', type=str, help="Relative path to read y training data")
 @click.option('--x-test-data', type=str, help="Relative path to read X test data")
@@ -102,10 +89,8 @@ def build_pipe(preprocessor, model):
 @click.option('--seed', type=int, help="Random seed", default=123)
 @click.option('--cv-folds', type=int, help="Number of cross validation folds", default=5)
 def main(x_train_data, y_train_data, x_test_data, y_test_data, preprocessor, pipeline_to, results_to, figures_to, seed, cv_folds):
+    # General variables
     classification_metrics = ["accuracy", "precision", "recall", "f1"]
-    # X_train = pd.read_csv(f"{train_data}/X_train.csv")
-    # y_train = pd.read_csv(f"{train_data}/y_train.csv")
-
     preprocessor = pickle.load(open(preprocessor, "rb"))
     X_train = pd.read_csv(x_train_data)
     y_train = pd.read_csv(y_train_data)
@@ -119,7 +104,8 @@ def main(x_train_data, y_train_data, x_test_data, y_test_data, preprocessor, pip
         "kNN": KNeighborsClassifier(),
         "SVM": SVC(random_state=seed),
         # "naive_bayes": MultinomialNB(),
-        "logistic_regression": LogisticRegression(random_state=seed, max_iter=1000)
+        "logistic_regression": LogisticRegression(random_state=seed, 
+                                                  max_iter=1000)
     }
 
     # Execute cross-validation for each model and store results
@@ -135,28 +121,23 @@ def main(x_train_data, y_train_data, x_test_data, y_test_data, preprocessor, pip
             return_train_score=True,
             scoring=classification_metrics
         )
-        cv_results_df = pd.DataFrame(results_dict).reset_index() #T
+        cv_results_df = pd.DataFrame(results_dict).reset_index() # T
 
-    cv_results_df.to_csv(os.path.join(results_to, "cv_results_df.csv"), index=False)
-
-    # cancer_fit = cancer_tune_grid.fit(
-    #     cancer_train.drop(columns=["class"]),
-    #     cancer_train["class"]
-    # )
-
-    # with open(os.path.join(pipeline_to, "cancer_pipeline.pickle"), 'wb') as f:
-    #     pickle.dump(cancer_fit, f)
+    cv_results_df.to_csv(os.path.join(results_to, 
+                                      "cv_results_df.csv"), index=False)
 
     heart_lr = make_pipeline(preprocessor, 
-                             LogisticRegression(random_state=seed, max_iter=1000))
+                             LogisticRegression(random_state=seed, 
+                                                max_iter=1000))
 
     heart_lr_fit = heart_lr.fit(X_train, y_train)
 
-    with open(os.path.join(pipeline_to, "hearth_lr_fit_pipeline.pickle"), 'wb') as f:
+    with open(os.path.join(pipeline_to, 
+                           "hearth_lr_fit_pipeline.pickle"), 'wb'
+                           ) as f:
         pickle.dump(heart_lr_fit, f)
 
     fit_conf_mat_logreg = ConfusionMatrixDisplay.from_estimator(
-        # build_pipe["logistic_regression"].fit(X_train, y_train),
         heart_lr_fit,
         X_train,
         y_train,
@@ -181,7 +162,8 @@ def main(x_train_data, y_train_data, x_test_data, y_test_data, preprocessor, pip
         index=[f"True_{c}" for c in fit_conf_mat_logreg.display_labels]
     )
 
-    fit_cm_logreg_df.to_csv(os.path.join(results_to, "fit_confusion_matrix_logreg.csv"))
+    fit_cm_logreg_df.to_csv(os.path.join(results_to, 
+                                         "fit_confusion_matrix_logreg.csv"))
 
     # Evaluate on Test Set
     y_pred = heart_lr.predict(X_test)
@@ -225,7 +207,8 @@ def main(x_train_data, y_train_data, x_test_data, y_test_data, preprocessor, pip
         index=[f"True_{c}" for c in fit_conf_mat_logreg.display_labels]
     )
 
-    eval_cm_logreg_df.to_csv(os.path.join(results_to, "eval_confusion_matrix_logreg.csv"))
+    eval_cm_logreg_df.to_csv(os.path.join(results_to, 
+                                          "eval_confusion_matrix_logreg.csv"))
 
 if __name__ == '__main__':
     main()
