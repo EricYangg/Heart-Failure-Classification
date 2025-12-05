@@ -54,10 +54,10 @@ python scripts/validate_n_split.py \
 --data-to=data/validated \
 --seed=123
 
-python scripts/eda_validate.py
---training-data=data/validated/heart_train.csv
---test-data=data/validated/heart_test.csv
---plot-to=results/figures
+python scripts/eda_validate.py \
+--training-data=data/validated/heart_train.csv \
+--test-data=data/validated/heart_test.csv \
+--plot-to=results/figures \
 --data-to=data/validated
 
 python scripts/preprocessor.py \
