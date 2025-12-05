@@ -1,0 +1,13 @@
+services:
+  # run jupyter notebook inside jupyter 
+  jupyter-notebook:
+    image:  ericyangg/dsci522-project:7cbc773
+    ports:
+      - "8888:8888"
+    volumes:
+      - .:/home/jovyan
+    deploy:
+      resources:
+        limits:
+          memory: 5G
+    platform: linux/amd64
