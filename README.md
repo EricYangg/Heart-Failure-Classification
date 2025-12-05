@@ -54,7 +54,7 @@ python scripts/validate_n_split.py \
 --data-to=data/validated \
 --seed=123
 
-python scripts/eda.py \
+python scripts/eda_validate.py
 --training-data=data/validated/heart_train.csv
 --test-data=data/validated/heart_test.csv
 --plot-to=results/figures
