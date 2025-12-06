@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.33">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Mara Sánchez, Eric Yang &amp; Omar Ramos">
+<meta name="dcterms.date" content="2025-11-21">
+
+<title>Classifying patients at risk for heart failure using clinical data</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="heart_disease_analysis_files/libs/clipboard/clipboard.min.js"></script>
+<script src="heart_disease_analysis_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="heart_disease_analysis_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="heart_disease_analysis_files/libs/quarto-html/popper.min.js"></script>
+<script src="heart_disease_analysis_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="heart_disease_analysis_files/libs/quarto-html/anchor.min.js"></script>
+<link href="heart_disease_analysis_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="heart_disease_analysis_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="heart_disease_analysis_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="heart_disease_analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="heart_disease_analysis_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+<div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+  <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#summary" id="toc-summary" class="nav-link active" data-scroll-target="#summary">Summary</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  <li><a href="#results-discussion" id="toc-results-discussion" class="nav-link" data-scroll-target="#results-discussion">Results &amp; Discussion</a>
+  <ul class="collapse">
+  <li><a href="#value-ranges-for-data-validation" id="toc-value-ranges-for-data-validation" class="nav-link" data-scroll-target="#value-ranges-for-data-validation">Value Ranges for Data Validation</a></li>
+  <li><a href="#models-evaluation" id="toc-models-evaluation" class="nav-link" data-scroll-target="#models-evaluation">Models Evaluation</a></li>
+  <li><a href="#evaluation-on-test-set" id="toc-evaluation-on-test-set" class="nav-link" data-scroll-target="#evaluation-on-test-set">Evaluation on Test Set</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="heart_disease_analysis.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+</div>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Classifying patients at risk for heart failure using clinical data</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Mara Sánchez, Eric Yang &amp; Omar Ramos </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">November 21, 2025</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="summary" class="level1">
+<h1>Summary</h1>
+<p>In this analysis, we explored various classification models with the intent of predicting whether a patient is at risk of heart failure based on clinical data and lifestyle factors of individuals. After evaluating multiple models through cross-validation, we selected Logistic Regression as our final model due to its overall superior performance across classification metrics. The model demonstrated promising results on the unseen test set, with an accuracy of np.float64(0.88) and F1-scores of np.float64(0.87) for the positive class (at risk) and np.float64(0.88) for the negative class (not at risk). From the np.int64(220) observations in the test set, the model correctly identified np.int64(97) cases at risk and np.int64(96) not at risk, reporting np.int64(16) false positives and np.int64(11) false negatives (cases predicted as not at risk when there is risk). Although the scores are encouraging for a first iteration, there is room for improvement to optimize the hyperparameters and the model’s threshold settings to minimize false negative cases, which are critical in medical applications. Overall, this model shows potential to support clinical professionals in the assessment of patients during screening.</p>
+</section>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>Cardiovascular diseases (CVDs) represent the leading cause of death worldwide, responsible for an estimate of 19.8 million deaths in 2022 and accounting for one-third of all deaths globally in people under the age of 70 <span class="citation" data-cites="WHO2024">(<a href="#ref-WHO2024" role="doc-biblioref">World Health Organization 2024</a>)</span>. Most CVDs have proven to have a big correlation with an individual’s behavior, habits and environment <span class="citation" data-cites="AHA2025">(<a href="#ref-AHA2025" role="doc-biblioref">American Heart Association 2025</a>)</span>. Heart Failure (HF) is a multi-faceted and life-threatening syndrome where the heart’s ability to pump and/or fill with blood is reduced, it is estimated to affect more than 64 million people globally <span class="citation" data-cites="Savarese2023">(<a href="#ref-Savarese2023" role="doc-biblioref">Savarese, Lund, and Becher 2023</a>)</span>. Risk factors such as high blood pressure, high blood glucose levels or pre-existing diseases require early intervention to avoid the risk of developing heart failure and other complications. Since many of these risk factors are clinically measurable and changeable, early intervention is highly possible and a critical opportunity in contributing to a patient’s well-being.</p>
+<p>This issue leads to the question of whether a machine learning (ML) model could reliably classify patients as ‘at-risk’ or ‘not-at-risk’ for heart failure based on clinical and lifestyle features. The study of this question is important because traditional risk assessment methods tend to overlook the variability and the complexity of the risk factors, meaning that subjectivity from healthcare professionals could also impact the outcome of the assessment <span class="citation" data-cites="Barnett2020">(<a href="#ref-Barnett2020" role="doc-biblioref">Barnett, Koppes, and et al. 2020</a>)</span>. Missing the early detection of risk of HF could lead to chronic and progressive conditions associated with increase in mortality and decrease in quality of life. Additionally, ML algorithms could offer significant advantages in predicting risk of HF, when integrating it to clinical practice it could allow for a more personalized treatment for the patient <span class="citation" data-cites="Kokori2025">(<a href="#ref-Kokori2025" role="doc-biblioref">Kokori et al. 2025</a>)</span>.</p>
+</section>
+<section id="methods" class="level1">
+<h1>Methods</h1>
+<p>The <a href="https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv">dataset</a> used in this project is pulled from a repository of the <a href="https://www.uminho.pt/EN/student-life/campi/Pages/Description.aspx">University of Minho, Portugal</a>. The dataset was created by Federico Soriano Palacios (2021), it integrates five different heart-related datasets combined over 11 common features that can be used to predict a possible heart disease. The five data sets are part of the <span class="citation" data-cites="Janosi1989">(<a href="#ref-Janosi1989" role="doc-biblioref">Janosi et al. 1989</a>)</span> that can be found in the UCI Machine Learning Repository that is originally sourced from the Hungarian Institute of Cardiology, the University Hospital of Zurich, the University Hospital of Basel, the V.A. Medical Center of Long Beach and Cleveland Clinic Foundation. Each row of the dataset contains 11 attributes that describe the patient’s age, sex, chest pain type, resting blood pressure, serum cholesterol, fasting blood sugar, resting ECG result, maximum heart rate achieved, exercise induced angina, ST depression induced by exercise relative to rest, slope of the peak exercise ST segment, and the presence or absence of heart disease.</p>
+<p>To build the classification model for the prediction of heart failure risk, an exploratory data analysis was conducted. Considering the distribution of the data, the features and their correlation to the target variable, it was decided to include all of them in the model with some standardization to improve results. Data was split into 70% for the training set and 30% for the test set. Different approaches were taken to evaluate which model would have the best accuracy in classification. We trained five different models, including Decision Tree, k-nearest neighbors (k-nn), Support Vector Machine (SVC) with an RBF kernel, Logistic Regression, and a Dummy Classifier (baseline). Each of the models were evaluated using a 5-fold cross-validation strategy. Model performance was evaluated using metrics such as accuracy, precision, recall, and F1-score. The model with the highest performance scores across all metrics is the Logistic Regression which is the model that will be used for the rest of the project. The Python programming language <span class="citation" data-cites="PythonManual2009">(<a href="#ref-PythonManual2009" role="doc-biblioref">Van Rossum and Drake 2009</a>)</span> and the following Python packages were used to perform the analysis: NumPy <span class="citation" data-cites="Harris2020">(<a href="#ref-Harris2020" role="doc-biblioref">Harris and et al. 2020</a>)</span>, pandas <span class="citation" data-cites="McKinney2010">(<a href="#ref-McKinney2010" role="doc-biblioref">McKinney 2010</a>)</span>, Matplotlib <span class="citation" data-cites="Hunter2007">(<a href="#ref-Hunter2007" role="doc-biblioref">Hunter 2007</a>)</span>, seaborn <span class="citation" data-cites="Waskom2021">(<a href="#ref-Waskom2021" role="doc-biblioref">Waskom 2021</a>)</span>, Altair <span class="citation" data-cites="VanderPlas2018">(<a href="#ref-VanderPlas2018" role="doc-biblioref">VanderPlas and et al. 2018</a>)</span>, scikit-learn <span class="citation" data-cites="Pedregosa2011">(<a href="#ref-Pedregosa2011" role="doc-biblioref">Pedregosa and et al. 2011</a>)</span>, and requests <span class="citation" data-cites="requests2011">(<a href="#ref-requests2011" role="doc-biblioref">Reitz 2011</a>)</span>.</p>
+</section>
+<section id="results-discussion" class="level1">
+<h1>Results &amp; Discussion</h1>
+<p>We conducted some initial exploratory data analysis by observing the number of observations, data types of the features, and checked for missing values. We also inspected the categorical counts for some features to better understand their distribution. The distribution of the target variable was observed to be balanced with approximately equal representation of both classes.</p>
+<p>To evaluate the usefulness of each feature to predict the heart disease, we investigated the distribution of each feature with respect to the target variable. We also visualized the correlation between features using a heatmap to identify any strong relationships.</p>
+<section id="value-ranges-for-data-validation" class="level2">
+<h2 class="anchored" data-anchor-id="value-ranges-for-data-validation">Value Ranges for Data Validation</h2>
+<p>For the numerical features, reasonable value ranges were established to support data validation. Age typically falls between 20 and 90 years, while resting blood pressure generally ranges from 80 to 230 mm Hg. Cholesterol levels are commonly observed between 50 and 400 mm/dl; values near 50 may indicate malnutrition, whereas values above 400 are rare and may represent noise in the dataset. FastingBS is a binary indicator that takes the value 1 when fasting blood sugar exceeds 120 mg/dl and 0 otherwise. The MaxHR (maximum heart rate achieved) usually ranges from 60 to 202 beats per minute. Oldpeak, which reflects ST depression induced by exercise relative to rest, can take values from approximately –4 mm to +6 mm; negative values indicate further ST depression during exercise, positive values indicate ST elevation, and zero indicates no change.</p>
+<p>For the categorical features, Sex can be either F or M, while ChestPainType includes TA (typical angina), ATA (atypical angina), NAP (non-anginal pain), and ASY (asymptomatic). The RestingECG feature may take the values Normal, ST (indicating an ST–T wave abnormality), or LVH (suggesting left ventricular hypertrophy). ExerciseAngina is recorded as Y or N, and ST_Slope describes the slope of the peak-exercise ST segment, taking the values Up or Flat.</p>
+<div id="fig-feature_box_plot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-feature_box_plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/boxplots_numeric_features.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-feature_box_plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Boxplots of Numeric Features.
+</figcaption>
+</figure>
+</div>
+<div id="fig-numeric_dist_plot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-numeric_dist_plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/numeric_dist_combined.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-numeric_dist_plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Distribution of categorical predictors, coloured by heart disease status.
+</figcaption>
+</figure>
+</div>
+<div id="fig-categorical_dist_plot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-categorical_dist_plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/categorical_dist_combined.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-categorical_dist_plot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Comparison of numerical predictors, coloured by heart disease status.
+</figcaption>
+</figure>
+</div>
+<div id="fig-correlation_heatmap" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-correlation_heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/correlation_heatmap_numeric_features.png" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlation_heatmap-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Correlation heatmap of all numerical features in the dataset.
+</figcaption>
+</figure>
+</div>
+<p>We are not dropping any features as all features seem to be relevant to predicting heart disease based on the EDA.</p>
+</section>
+<section id="models-evaluation" class="level2">
+<h2 class="anchored" data-anchor-id="models-evaluation">Models Evaluation</h2>
+<p>We decided to initiate our analysis considering a set of classification models including Decision Tree, kNN, SVM (with RBF kernel), Logistic Regression, and a dummy classifier as a baseline. All models were trained and evaluated using a 5-fold cross-validation strategy. The performance classification metrics used to evaluate the models were accuracy, precision, recall and F1-score.</p>
+<p>Initially, the models were trained using default hyperparameters to define a model that would be further optimized in subsequent steps for this project.</p>
+<p>The configuration and results of the cross-validations are detailed below:</p>
+<p><em>Table 1. Cross-validation 5-folds results for all models.</em></p>
+<p>After performing the cross-validation, we observed that both the Logistic Regression and SVM models had the best performance across all metrics, with Logistic Regression slightly outperforming SVM all-around.</p>
+<p>Based on this, we decided to choose the Logistic Regression model as our final model for predicting heart disease risk.</p>
+<p><em>Figure 4. Confusion matrix for Logistic Regression model - Train set.</em></p>
+</section>
+<section id="evaluation-on-test-set" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-on-test-set">Evaluation on Test Set</h2>
+<p><em>Table 2. Classification Report for Test Set.</em></p>
+<p><em>Figure 5. Confusion matrix for Logistic Regression model - Test set.</em></p>
+<p>The initial results of the Logistic Regression prediction model on the test set showed good performance across all metrics, as detailed in Table 2. This matched our expectations based on the cross-validation results, indicating that the model would generalize well on unseen data. This is already a positive outcome for a first iteration of the model and provides a solid foundation for further improvements. It also has the potential to be useful as a support tool for clinical screening of patients.</p>
+<p>Aside from the hyperparameter tuning that will be explored on future stages, this use case is well suited for Precision-Recall and Receiver Operating Characteristic (ROC) curve analysis to further evaluate the model’s threshold settings and trade-offs between precision and recall. This is a medical-related application, and it is crucial to minimize false negatives i.e., predicting a patient is not at risk when they actually are. Also, making the probability scores available for the predictions could increase the model’s utility, supporting the decision-making of healthcare professionals.</p>
+<p>It is important to note that this project has certain limitations. The dataset used is relatively old and is based in Europe. There has been evidence that baseline heart-disease risk varies across racial and ethnic groups <span class="citation" data-cites="Lewsey2021">(<a href="#ref-Lewsey2021" role="doc-biblioref">Lewsey and Breathett 2021</a>)</span> which limits how well our results generalize to broader populations. Additionally, because we are relying on logistic regression, the model is not able to capture complex or non-linear relationships between the features and the target.</p>
+<p>Finally, we could review the features coefficients from the Logistic Regression model to understand their influence on the predictions, enabling to better interpret the model’s decisions and confirm if we could drop any features in future iterations.</p>
+</section>
+</section>
+<section id="references" class="level1 unnumbered">
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-AHA2025" class="csl-entry" role="listitem">
+American Heart Association. 2025. <span>“2025 Heart &amp; Stroke Statistics Update Fact Sheet: Global Burden of Disease.”</span> PDF. <a href="https://professional.heart.org/-/media/phd-files-2/science-news/2/2025-heart-and-stroke-stat-update/factsheets/2025-stats-update-fact-sheet-global-burden-of-disease.pdf">https://professional.heart.org/-/media/phd-files-2/science-news/2/2025-heart-and-stroke-stat-update/factsheets/2025-stats-update-fact-sheet-global-burden-of-disease.pdf</a>.
+</div>
+<div id="ref-Barnett2020" class="csl-entry" role="listitem">
+Barnett, M. P., L. L. J. Koppes, and et al. 2020. <span>“Cardiovascular Risk Factors: It’s Time to Focus on Variability!”</span> <em>Frontiers in Cardiovascular Medicine</em> 7: Article 80. <a href="https://doi.org/10.3389/fcvm.2020.00080">https://doi.org/10.3389/fcvm.2020.00080</a>.
+</div>
+<div id="ref-Harris2020" class="csl-entry" role="listitem">
+Harris, C. R., and et al. 2020. <span>“Array Programming with NumPy.”</span> <em>Nature</em> 585: 357–62.
+</div>
+<div id="ref-Hunter2007" class="csl-entry" role="listitem">
+Hunter, J. D. 2007. <span>“Matplotlib: A 2D Graphics Environment.”</span> <em>Computing in Science &amp; Engineering</em> 9 (3): 90–95.
+</div>
+<div id="ref-Janosi1989" class="csl-entry" role="listitem">
+Janosi, A., W. Steinbrunn, M. Pfisterer, and R. Detrano. 1989. <span>“Heart Disease.”</span> UCI Machine Learning Repository; Dataset. <a href="https://doi.org/10.24432/C52P4X">https://doi.org/10.24432/C52P4X</a>.
+</div>
+<div id="ref-Kokori2025" class="csl-entry" role="listitem">
+Kokori, E., R. Patel, G. Olatunji, B. M. Ukoaka, I. C. Abraham, V. O. Ajekiigbe, J. M. Kwape, A. E. Babalola, N. G. Udam, and N. Aderinto. 2025. <span>“Machine Learning in Predicting Heart Failure Survival: A Review of Current Models and Future Prospects.”</span> <em>Heart Failure Reviews</em> 30 (2): 431–42. <a href="https://doi.org/10.1007/s10741-024-10474-y">https://doi.org/10.1007/s10741-024-10474-y</a>.
+</div>
+<div id="ref-Lewsey2021" class="csl-entry" role="listitem">
+Lewsey, S. C., and K. Breathett. 2021. <span>“Racial and Ethnic Disparities in Heart Failure: Current State and Future Directions.”</span>
+</div>
+<div id="ref-McKinney2010" class="csl-entry" role="listitem">
+McKinney, Wes. 2010. <span>“Data Structures for Statistical Computing in Python.”</span> In <em>Proceedings of the 9th Python in Science Conference</em>, edited by Stéfan van der Walt and Jarrod Millman, 51–56.
+</div>
+<div id="ref-Pedregosa2011" class="csl-entry" role="listitem">
+Pedregosa, F., and et al. 2011. <span>“Scikit-Learn: Machine Learning in Python.”</span> <em>Journal of Machine Learning Research</em> 12: 2825–30.
+</div>
+<div id="ref-requests2011" class="csl-entry" role="listitem">
+Reitz, Kenneth. 2011. <em>Requests: HTTP for Humans</em>. <a href="https://requests.readthedocs.io/en/master/">https://requests.readthedocs.io/en/master/</a>.
+</div>
+<div id="ref-Savarese2023" class="csl-entry" role="listitem">
+Savarese, G., L. H. Lund, and P. M. Becher. 2023. <span>“Global Burden of Heart Failure: A Comprehensive and Updated Review of Epidemiology.”</span> <em>Cardiovascular Research</em> 118 (17): 3272–87. <a href="https://doi.org/10.1093/cvr/cvac013">https://doi.org/10.1093/cvr/cvac013</a>.
+</div>
+<div id="ref-PythonManual2009" class="csl-entry" role="listitem">
+Van Rossum, Guido, and Fred L. Drake. 2009. <em>Python 3 Reference Manual</em>. Scotts Valley, CA: CreateSpace.
+</div>
+<div id="ref-VanderPlas2018" class="csl-entry" role="listitem">
+VanderPlas, J., and et al. 2018. <span>“Altair: Interactive Statistical Visualizations for Python.”</span> <em>Journal of Open Source Software</em> 3 (32): 1057.
+</div>
+<div id="ref-Waskom2021" class="csl-entry" role="listitem">
+Waskom, M. L. 2021. <span>“Seaborn: Statistical Data Visualization.”</span> <em>Journal of Open Source Software</em> 6 (60): 3021. <a href="https://doi.org/10.21105/joss.03021">https://doi.org/10.21105/joss.03021</a>.
+</div>
+<div id="ref-WHO2024" class="csl-entry" role="listitem">
+World Health Organization. 2024. <span>“Cardiovascular Diseases (CVDs) – Fact Sheet.”</span> <a href="https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)">https://www.who.int/news-room/fact-sheets/detail/cardiovascular-diseases-(cvds)</a>.
+</div>
+</div></section></div></main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
