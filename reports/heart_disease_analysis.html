@@ -55,7 +55,7 @@ div.csl-indent {
 <link href="heart_disease_analysis_files/libs/quarto-html/quarto-syntax-highlighting-ea385d0e468b0dd5ea5bf0780b1290d9.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="heart_disease_analysis_files/libs/bootstrap/bootstrap.min.js"></script>
 <link href="heart_disease_analysis_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="heart_disease_analysis_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="heart_disease_analysis_files/libs/bootstrap/bootstrap-81267100e462c21b3d6c0d5bf76a3417.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 
 
 </head>
@@ -79,7 +79,7 @@ div.csl-indent {
   </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
-<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="heart_disease_analysis.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
+<div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="../heart_disease_analysis.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <main class="content" id="quarto-document-content">
 
@@ -116,7 +116,7 @@ div.csl-indent {
 
 <section id="summary" class="level1">
 <h1>Summary</h1>
-<p>In this analysis, we explored various classification models with the intent of predicting whether a patient is at risk of heart failure based on clinical data and lifestyle factors of individuals. After evaluating multiple models through cross-validation, we selected Logistic Regression as our final model due to its overall superior performance across classification metrics. The model demonstrated promising results on the unseen test set, with an accuracy of np.float64(0.88) and F1-scores of np.float64(0.87) for the positive class (at risk) and np.float64(0.88) for the negative class (not at risk). From the np.int64(220) observations in the test set, the model correctly identified np.int64(97) cases at risk and np.int64(96) not at risk, reporting np.int64(16) false positives and np.int64(11) false negatives (cases predicted as not at risk when there is risk). Although the scores are encouraging for a first iteration, there is room for improvement to optimize the hyperparameters and the model’s threshold settings to minimize false negative cases, which are critical in medical applications. Overall, this model shows potential to support clinical professionals in the assessment of patients during screening.</p>
+<p>In this analysis, we explored various classification models with the intent of predicting whether a patient is at risk of heart failure based on clinical data and lifestyle factors of individuals. After evaluating multiple models through cross-validation, we selected Logistic Regression as our final model due to its overall superior performance across classification metrics. The model demonstrated promising results on the unseen test set, with an accuracy of 0.88 and F1-scores of 0.87 for the positive class (at risk) and 0.88 for the negative class (not at risk). From the 220 observations in the test set, the model correctly identified 97 cases at risk and 96 not at risk, reporting 16 false positives and 11 false negatives (cases predicted as not at risk when there is risk). Although the scores are encouraging for a first iteration, there is room for improvement to optimize the hyperparameters and the model’s threshold settings to minimize false negative cases, which are critical in medical applications. Overall, this model shows potential to support clinical professionals in the assessment of patients during screening.</p>
 </section>
 <section id="introduction" class="level1">
 <h1>Introduction</h1>
@@ -183,17 +183,209 @@ Figure&nbsp;4: Correlation heatmap of all numerical features in the dataset.
 <p>We decided to initiate our analysis considering a set of classification models including Decision Tree, kNN, SVM (with RBF kernel), Logistic Regression, and a dummy classifier as a baseline. All models were trained and evaluated using a 5-fold cross-validation strategy. The performance classification metrics used to evaluate the models were accuracy, precision, recall and F1-score.</p>
 <p>Initially, the models were trained using default hyperparameters to define a model that would be further optimized in subsequent steps for this project.</p>
 <p>The configuration and results of the cross-validations are detailed below:</p>
-<p><em>Table 1. Cross-validation 5-folds results for all models.</em></p>
+<div class="cell" data-execution_count="4">
+<div id="tbl-cv-results" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="4">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-cv-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Cross-validation 5-folds results for all models.
+</figcaption>
+<div aria-describedby="tbl-cv-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="94">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">index</th>
+<th style="text-align: left;">dummy</th>
+<th style="text-align: left;">decision_tree</th>
+<th style="text-align: left;">kNN</th>
+<th style="text-align: left;">SVM</th>
+<th style="text-align: left;">logistic_regression</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">fit_time</td>
+<td style="text-align: left;">0.002 (+/- 0.000)</td>
+<td style="text-align: left;">0.003 (+/- 0.000)</td>
+<td style="text-align: left;">0.003 (+/- 0.000)</td>
+<td style="text-align: left;">0.006 (+/- 0.002)</td>
+<td style="text-align: left;">0.003 (+/- 0.000)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">score_time</td>
+<td style="text-align: left;">0.005 (+/- 0.000)</td>
+<td style="text-align: left;">0.005 (+/- 0.000)</td>
+<td style="text-align: left;">0.017 (+/- 0.008)</td>
+<td style="text-align: left;">0.008 (+/- 0.001)</td>
+<td style="text-align: left;">0.006 (+/- 0.001)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">test_accuracy</td>
+<td style="text-align: left;">0.532 (+/- 0.003)</td>
+<td style="text-align: left;">0.760 (+/- 0.057)</td>
+<td style="text-align: left;">0.819 (+/- 0.028)</td>
+<td style="text-align: left;">0.854 (+/- 0.015)</td>
+<td style="text-align: left;">0.850 (+/- 0.024)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">train_accuracy</td>
+<td style="text-align: left;">0.532 (+/- 0.001)</td>
+<td style="text-align: left;">1.000 (+/- 0.000)</td>
+<td style="text-align: left;">0.884 (+/- 0.006)</td>
+<td style="text-align: left;">0.905 (+/- 0.002)</td>
+<td style="text-align: left;">0.864 (+/- 0.006)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">test_precision</td>
+<td style="text-align: left;">0.000 (+/- 0.000)</td>
+<td style="text-align: left;">0.745 (+/- 0.062)</td>
+<td style="text-align: left;">0.804 (+/- 0.040)</td>
+<td style="text-align: left;">0.837 (+/- 0.027)</td>
+<td style="text-align: left;">0.833 (+/- 0.029)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">train_precision</td>
+<td style="text-align: left;">0.000 (+/- 0.000)</td>
+<td style="text-align: left;">1.000 (+/- 0.000)</td>
+<td style="text-align: left;">0.871 (+/- 0.009)</td>
+<td style="text-align: left;">0.899 (+/- 0.008)</td>
+<td style="text-align: left;">0.854 (+/- 0.003)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">test_recall</td>
+<td style="text-align: left;">0.000 (+/- 0.000)</td>
+<td style="text-align: left;">0.742 (+/- 0.070)</td>
+<td style="text-align: left;">0.812 (+/- 0.036)</td>
+<td style="text-align: left;">0.854 (+/- 0.000)</td>
+<td style="text-align: left;">0.850 (+/- 0.023)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">train_recall</td>
+<td style="text-align: left;">0.000 (+/- 0.000)</td>
+<td style="text-align: left;">1.000 (+/- 0.000)</td>
+<td style="text-align: left;">0.882 (+/- 0.009)</td>
+<td style="text-align: left;">0.899 (+/- 0.009)</td>
+<td style="text-align: left;">0.856 (+/- 0.014)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">test_f1</td>
+<td style="text-align: left;">0.000 (+/- 0.000)</td>
+<td style="text-align: left;">0.743 (+/- 0.063)</td>
+<td style="text-align: left;">0.808 (+/- 0.029)</td>
+<td style="text-align: left;">0.846 (+/- 0.014)</td>
+<td style="text-align: left;">0.841 (+/- 0.025)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">train_f1</td>
+<td style="text-align: left;">0.000 (+/- 0.000)</td>
+<td style="text-align: left;">1.000 (+/- 0.000)</td>
+<td style="text-align: left;">0.876 (+/- 0.007)</td>
+<td style="text-align: left;">0.899 (+/- 0.002)</td>
+<td style="text-align: left;">0.855 (+/- 0.007)</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
 <p>After performing the cross-validation, we observed that both the Logistic Regression and SVM models had the best performance across all metrics, with Logistic Regression slightly outperforming SVM all-around.</p>
 <p>Based on this, we decided to choose the Logistic Regression model as our final model for predicting heart disease risk.</p>
-<p><em>Figure 4. Confusion matrix for Logistic Regression model - Train set.</em></p>
+<div id="fig-fit-conf-matrix-logreg" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fit-conf-matrix-logreg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/fit_confusion_matrix_logreg.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fit-conf-matrix-logreg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Confusion matrix for Logistic Regression model - Train set.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="evaluation-on-test-set" class="level2">
 <h2 class="anchored" data-anchor-id="evaluation-on-test-set">Evaluation on Test Set</h2>
-<p><em>Table 2. Classification Report for Test Set.</em></p>
-<p><em>Figure 5. Confusion matrix for Logistic Regression model - Test set.</em></p>
-<p>The initial results of the Logistic Regression prediction model on the test set showed good performance across all metrics, as detailed in Table 2. This matched our expectations based on the cross-validation results, indicating that the model would generalize well on unseen data. This is already a positive outcome for a first iteration of the model and provides a solid foundation for further improvements. It also has the potential to be useful as a support tool for clinical screening of patients.</p>
-<p>Aside from the hyperparameter tuning that will be explored on future stages, this use case is well suited for Precision-Recall and Receiver Operating Characteristic (ROC) curve analysis to further evaluate the model’s threshold settings and trade-offs between precision and recall. This is a medical-related application, and it is crucial to minimize false negatives i.e., predicting a patient is not at risk when they actually are. Also, making the probability scores available for the predictions could increase the model’s utility, supporting the decision-making of healthcare professionals.</p>
+<p>The initial results of the Logistic Regression prediction model on the test set showed good performance across all metrics, as detailed in <a href="#tbl-eval-cr-logreg" class="quarto-xref">Table&nbsp;2</a>. This matched our expectations based on the cross-validation results, indicating that the model would generalize well on unseen data. This is already a positive outcome for a first iteration of the model and provides a solid foundation for further improvements. It also has the potential to be useful as a support tool for clinical screening of patients.</p>
+<div class="cell" data-execution_count="5">
+<div id="tbl-eval-cr-logreg" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="5">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-eval-cr-logreg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Classification Report for Test Set.
+</figcaption>
+<div aria-describedby="tbl-eval-cr-logreg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="95">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">precision</th>
+<th style="text-align: right;">recall</th>
+<th style="text-align: right;">f1-score</th>
+<th style="text-align: right;">support</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">0</td>
+<td style="text-align: right;">0.869565</td>
+<td style="text-align: right;">0.892857</td>
+<td style="text-align: right;">0.881057</td>
+<td style="text-align: right;">112</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1</td>
+<td style="text-align: right;">0.885714</td>
+<td style="text-align: right;">0.861111</td>
+<td style="text-align: right;">0.873239</td>
+<td style="text-align: right;">108</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">accuracy</td>
+<td style="text-align: right;">0.877273</td>
+<td style="text-align: right;">0.877273</td>
+<td style="text-align: right;">0.877273</td>
+<td style="text-align: right;">0.877273</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">macro avg</td>
+<td style="text-align: right;">0.87764</td>
+<td style="text-align: right;">0.876984</td>
+<td style="text-align: right;">0.877148</td>
+<td style="text-align: right;">220</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">weighted avg</td>
+<td style="text-align: right;">0.877493</td>
+<td style="text-align: right;">0.877273</td>
+<td style="text-align: right;">0.877219</td>
+<td style="text-align: right;">220</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Aside from the hyperparameter tuning that will be explored on future stages, this use case is well suited for Precision-Recall and Receiver Operating Characteristic (ROC) curve analysis to further evaluate the model’s threshold settings and trade-offs between precision and recall. This is a medical-related application, and it is crucial to minimize false negatives i.e., predicting a patient is not at risk when they actually are. These details are shown in the confusion matrix <a href="#fig-eval-conf-matrix-logreg" class="quarto-xref">Figure&nbsp;6</a> obtained from the test data set. Also, making the probability scores available for the predictions could increase the model’s utility, supporting the decision-making of healthcare professionals.</p>
+<div id="fig-eval-conf-matrix-logreg" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-eval-conf-matrix-logreg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="../results/figures/eval_confusion_matrix_logreg.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-eval-conf-matrix-logreg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Confusion matrix for Logistic Regression model - Test set.
+</figcaption>
+</figure>
+</div>
 <p>It is important to note that this project has certain limitations. The dataset used is relatively old and is based in Europe. There has been evidence that baseline heart-disease risk varies across racial and ethnic groups <span class="citation" data-cites="Lewsey2021">(<a href="#ref-Lewsey2021" role="doc-biblioref">Lewsey and Breathett 2021</a>)</span> which limits how well our results generalize to broader populations. Additionally, because we are relying on logistic regression, the model is not able to capture complex or non-linear relationships between the features and the target.</p>
 <p>Finally, we could review the features coefficients from the Logistic Regression model to understand their influence on the predictions, enabling to better interpret the model’s decisions and confirm if we could drop any features in future iterations.</p>
 </section>
