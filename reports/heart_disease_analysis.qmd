@@ -10,6 +10,7 @@ format:
     pdf:
         toc: true
         toc-depth: 2
+        fig-pos: H
 bibliography: references.bib
 execute:
   echo: false
@@ -20,6 +21,7 @@ editor: source
 ```{python}
 import pandas as pd
 from IPython.display import Markdown, display
+from tabulate import tabulate
 ```
 
 ```{python}
@@ -83,26 +85,37 @@ Initially, the models were trained using default hyperparameters to define a mod
 
 The configuration and results of the cross-validations are detailed below:
 
-_Table 1. Cross-validation 5-folds results for all models._
+```{python}
+#| label: tbl-cv-results
+#| tbl-cap: Cross-validation 5-folds results for all models.
+
+Markdown(cv_results_df.to_markdown())
+```
 
 After performing the cross-validation, we observed that both the Logistic Regression and SVM models had the best performance across all metrics, with Logistic Regression slightly outperforming SVM all-around. 
 
 Based on this, we decided to choose the Logistic Regression model as our final model for predicting heart disease risk. 
 
-_Figure 4. Confusion matrix for Logistic Regression model - Train set._
+![Confusion matrix for Logistic Regression model - Train set.](../results/figures/fit_confusion_matrix_logreg.png){#fig-fit-conf-matrix-logreg width=60%}
 
 ## Evaluation on Test Set
 
-_Table 2. Classification Report for Test Set._
+The initial results of the Logistic Regression prediction model on the test set showed good performance across all metrics, as detailed in @tbl-eval-cr-logreg. This matched our expectations based on the cross-validation results, indicating that the model would generalize well on unseen data. This is already a positive outcome for a first iteration of the model and provides a solid foundation for further improvements. It also has the potential to be useful as a support tool for clinical screening of patients.
 
-_Figure 5. Confusion matrix for Logistic Regression model - Test set._
+```{python}
+#| label: tbl-eval-cr-logreg
+#| tbl-cap: Classification Report for Test Set.
 
-The initial results of the Logistic Regression prediction model on the test set showed good performance across all metrics, as detailed in Table 2. This matched our expectations based on the cross-validation results, indicating that the model would generalize well on unseen data. This is already a positive outcome for a first iteration of the model and provides a solid foundation for further improvements. It also has the potential to be useful as a support tool for clinical screening of patients.
+Markdown(eval_cr_logreg.to_markdown())
+```
 
-Aside from the hyperparameter tuning that will be explored on future stages, this use case is well suited for Precision-Recall and Receiver Operating Characteristic (ROC) curve analysis to further evaluate the model's threshold settings and trade-offs between precision and recall. This is a medical-related application, and it is crucial to minimize false negatives i.e., predicting a patient is not at risk when they actually are. Also, making the probability scores available for the predictions could increase the model's utility, supporting the decision-making of healthcare professionals. 
+Aside from the hyperparameter tuning that will be explored on future stages, this use case is well suited for Precision-Recall and Receiver Operating Characteristic (ROC) curve analysis to further evaluate the model's threshold settings and trade-offs between precision and recall. This is a medical-related application, and it is crucial to minimize false negatives i.e., predicting a patient is not at risk when they actually are. These details are shown in the confusion matrix @fig-eval-conf-matrix-logreg obtained from the test data set. Also, making the probability scores available for the predictions could increase the model's utility, supporting the decision-making of healthcare professionals. 
+
+![Confusion matrix for Logistic Regression model - Test set.](../results/figures/eval_confusion_matrix_logreg.png){#fig-eval-conf-matrix-logreg width=60%}
 
 It is important to note that this project has certain limitations. The dataset used is relatively old and is based in Europe. There has been evidence that baseline heart-disease risk varies across racial and ethnic groups [@Lewsey2021] which limits how well our results generalize to broader populations. Additionally, because we are relying on logistic regression, the model is not able to capture complex or non-linear relationships between the features and the target.
 
 Finally, we could review the features coefficients from the Logistic Regression model to understand their influence on the predictions, enabling to better interpret the model's decisions and confirm if we could drop any features in future iterations.
+
 
 # References
