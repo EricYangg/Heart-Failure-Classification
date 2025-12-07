@@ -89,6 +89,16 @@ def build_pipe(preprocessor, model):
 @click.option('--seed', type=int, help="Random seed", default=123)
 @click.option('--cv-folds', type=int, help="Number of cross validation folds", default=5)
 def main(x_train_data, y_train_data, x_test_data, y_test_data, preprocessor, pipeline_to, results_to, figures_to, seed, cv_folds):
+    '''
+    This script performs the cross-validation for a defined set of models. It then focus on the selected Logistic Regression estimator to fit, generate confusion matrices and classification repors for Train and the Test set data.
+    The following outputs are generated:
+        The cross-validation results CSV table.
+        The fitted selected LR model (pickle).
+        The fit confusion matrix for the LR model (image and CSV table).
+        The evaluation classification report for the LR model (CSV table).
+        The evaluation confusion matrix for the LR model (image and CSV table).
+    '''
+
     # General variables
     classification_metrics = ["accuracy", "precision", "recall", "f1"]
     preprocessor = pickle.load(open(preprocessor, "rb"))
@@ -96,6 +106,10 @@ def main(x_train_data, y_train_data, x_test_data, y_test_data, preprocessor, pip
     y_train = pd.read_csv(y_train_data)
     X_test = pd.read_csv(x_test_data)
     y_test = pd.read_csv(y_test_data)
+
+    # Avoid scikit-learn warnings with column vector vs 1-d vector
+    y_train = y_train.squeeze()
+    y_test = y_test.squeeze()
 
     # Define models to evaluate
     models = {
