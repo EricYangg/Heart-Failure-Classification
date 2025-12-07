@@ -76,6 +76,9 @@ python scripts/fit_heart_disease_model.py \
 --figures-to=results/figures \
 --seed=123 \
 --cv-folds=5
+
+quarto render reports/heart_disease_analysis.qmd --to html
+quarto render reports/heart_disease_analysis.qmd --to pdf
 ```
 
 #### Clean up
