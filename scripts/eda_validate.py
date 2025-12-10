@@ -10,11 +10,10 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 import warnings
+import sys
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 warnings.filterwarnings("ignore", module="altair")
-warnings.filterwarnings("ignore", category=FutureWarning, module="deepchecks")
-warnings.filterwarnings("ignore", category=UserWarning, module="deepchecks")
-from deepchecks.tabular import Dataset
-from deepchecks.tabular.checks import FeatureLabelCorrelation, FeatureFeatureCorrelation
+from src.validate_feature_correlation import validate_feature_correlation
 
 @click.command()
 @click.option('--training-data', type=str, help="Path to training data")
@@ -116,30 +115,21 @@ def main(training_data, test_data, plot_to, data_to):
 
     # Deepchecks: Feature correlation checks
     categorical_features = ['Sex', 'ChestPainType', 'RestingECG', 'ExerciseAngina', 'ST_Slope']
-    heart_train_ds = Dataset(
-        train_df,
+    feat_lab_threshold = 0.9
+    feat_feat_threshold = 0.95
+    feat_feat_n_pairs = 0
+    # Validate feature correlations
+    check_feat_lab_corr_result, check_feat_feat_corr_result = validate_feature_correlation(
+        train_df=train_df,
         label="HeartDisease",
-        cat_features=categorical_features
+        categorical_features=categorical_features,
+        feat_lab_threshold=feat_lab_threshold,
+        feat_feat_threshold=feat_feat_threshold,
+        feat_feat_n_pairs=feat_feat_n_pairs
     )
 
-    # Check: Feature-label correlation
-    check_feat_lab_corr = FeatureLabelCorrelation().add_condition_feature_pps_less_than(0.9)
-    check_feat_lab_corr_result = check_feat_lab_corr.run(dataset=heart_train_ds)
-
-    # Check: Feature-feature correlation
-    check_feat_feat_corr = (
-        FeatureFeatureCorrelation()
-        .add_condition_max_number_of_pairs_above_threshold(n_pairs=0, threshold=0.95)
-    )
-    check_feat_feat_corr_result = check_feat_feat_corr.run(dataset=heart_train_ds)
-
-    if not check_feat_lab_corr_result.passed_conditions():
-        raise ValueError("Feature-label correlation exceeds the maximum acceptable threshold.")
-
-    if not check_feat_feat_corr_result.passed_conditions():
-        raise ValueError("Feature-feature correlation exceeds the maximum acceptable threshold.")
-
-    check_feat_lab_corr_result, check_feat_feat_corr_result
+    print("\n--- Deepchecks Validation Summary ---")
+    print("SUCCESS: Feature correlation checks passed.")
 
     # Create the split
     X_train = train_df.drop(columns=["HeartDisease"])
