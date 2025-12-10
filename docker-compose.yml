@@ -1,7 +1,7 @@
 services:
   # run jupyter notebook inside jupyter 
   jupyter-notebook:
-    image:  ericyangg/dsci522-project:01ccae2
+    image:  ericyangg/dsci522-project:208e35b
     ports:
       - "8888:8888"
     volumes:
