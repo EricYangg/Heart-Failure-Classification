@@ -24,6 +24,11 @@ def validate_feature_correlation(train_df: pd.DataFrame, label: str, categorical
     feat_feat_n_pairs : int
         Maximum number of feature-feature pairs allowed above the threshold.
     
+    Returns
+    -------
+    tuple
+        A tuple containing the results of feature-label and feature-feature correlation check objects.
+
     Raises
     ------
     ValueError
