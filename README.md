@@ -1,7 +1,5 @@
 # Heart Failure Classification
 
-Authors: Omar Ramos, Mara Sanchez, Eric Yang
-
 ## About
 
 In this analysis, we explored various classification models with the intent of predicting whether a patient is at risk of heart failure based on clinical data and lifestyle factors of individuals. After evaluating multiple models through cross-validation, we selected Logistic Regression as our final model due to its overall superior performance across classification metrics. The model demonstrated promising results on the unseen test set, with an accuracy of 86% and F1-scores of 0.88 for the positive class (at risk) and 0.84 for the negative class (not at risk). From the 276 observations in the test set, the model correctly identified 144 cases at risk and 97 not at risk, reporting 23 false positives and 12 false negatives (cases predicted as not at risk when there is risk). Although the scores are encouraging for a first iteration, there is room for improvement to optimize the hyperparameters and the model's threshold settings to minimize false negative cases, which are critical in medical applications. Overall, this model shows potential to support clinical professionals in the assessment of patients during screening. 
@@ -128,6 +126,26 @@ jupyter lab
 4. Open `notebooks/heart_disease_analysis.ipynb` in Jupyter Lab and under `Switch/Select Kernel` choose "Python [conda env:heart-failure-classification]".
 
 Next, under the "Kernel" menu click "Restart Kernel and Run All Cells...".
+
+## Contributors
+
+### Omar Ramos
+
+- **Affiliation**: University of British Columbia
+- **Email**: <omar.ramos19@gmail.com>
+- **GitHub**: [@mayitoxix](https://github.com/mayitoxix)
+
+### Mara Sánchez
+
+- **Affiliation**: University of British Columbia
+- **Email**: <marasanchezrom@gmail.com>
+- **GitHub**: [@mara-sanchez1](https://github.com/mara-sanchez1)
+
+### Eric Yang
+
+- **Affiliation**: University of British Columbia
+- **Email**: <eric99yang@gmail.com>
+- **GitHub**: [@EricYangg](https://github.com/EricYangg)
 
 ## Acknowledgements
 
