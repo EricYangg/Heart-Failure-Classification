@@ -147,7 +147,7 @@ def main(x_train_data, y_train_data, x_test_data, y_test_data, preprocessor, pip
     heart_lr_fit = heart_lr.fit(X_train, y_train)
 
     with open(os.path.join(pipeline_to, 
-                           "hearth_lr_fit_pipeline.pickle"), 'wb'
+                           "heart_lr_fit_pipeline.pickle"), 'wb'
                            ) as f:
         pickle.dump(heart_lr_fit, f)
 
