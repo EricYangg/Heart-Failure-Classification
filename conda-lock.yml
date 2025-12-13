@@ -13,10 +13,10 @@
 version: 1
 metadata:
   content_hash:
-    linux-64: 0ce38f0055b675bbec85035566bff2fc02031dd771ab468db4c318dafc3a901e
-    osx-arm64: 5778889f6b725b4c4de4fcf5a9375dcddfb85dc8369462991a20f9c8b94a6d21
-    osx-64: 83c508efc4ed5c2e7db123b42c872c0b4c94f0de694895d6dc039404899c826a
-    win-64: f78c605351fc078e14554881c51ffd221c50a0927df0155bb16fa19477e5b926
+    linux-64: 9372e79b1474a43afc87020df84080ff51fcee61fe829dc06d377dbec88a0937
+    osx-arm64: 69823b404f76106e304936f92d61800dc6ffb59d8713b68a9c7a5d3bb7e231da
+    osx-64: a0c1c9e626b0804004ff9554702f97ec98dfb5c40447162c3e865c9306a51880
+    win-64: 6ea7541f858e6022f10f751f73d143d013129a75c2b0c1b16ce75e8bcc913ced
   channels:
   - url: defaults
     used_env_vars: []
@@ -52,6 +52,19 @@ package:
   hash:
     md5: 71d281e9c2192cb3fa425655a8defb85
     sha256: 576011048d23f2e03372263493c5529f802286ff53e8426df99a5b11cc2572f3
+  category: main
+  optional: false
+- name: _openmp_mutex
+  version: '4.5'
+  manager: conda
+  platform: win-64
+  dependencies:
+    libgomp: '>=7.5.0'
+    libwinpthread: '>=12.0.0.r2.ggc561118da'
+  url: https://conda.anaconda.org/conda-forge/win-64/_openmp_mutex-4.5-2_gnu.conda
+  hash:
+    md5: 37e16618af5c4851a3f3d66dd0e11141
+    sha256: 1a62cd1f215fe0902e7004089693a78347a30ad687781dfda2289cab000e652d
   category: main
   optional: false
 - name: altair
@@ -7418,6 +7431,19 @@ package:
     sha256: baf9d8d16e2a8ae7a4d1b80f2c1a932deaca1a87c677a370f6ab4688482db47b
   category: main
   optional: false
+- name: libgcc
+  version: 15.2.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    _openmp_mutex: '>=4.5'
+    libwinpthread: '>=12.0.0.r4.gg4f2fc60ca'
+  url: https://conda.anaconda.org/conda-forge/win-64/libgcc-15.2.0-h8ee18e1_16.conda
+  hash:
+    md5: 1edb8bd8e093ebd31558008e9cb23b47
+    sha256: 24984e1e768440ba73021f08a1da0c1ec957b30d7071b9a89b877a273d17cae8
+  category: main
+  optional: false
 - name: libgcc-ng
   version: 15.2.0
   manager: conda
@@ -7607,6 +7633,18 @@ package:
   hash:
     md5: 82025ed6da944bd419d42d9b1ff116aa
     sha256: 835e44371812c91563a00dec8bc98c460f8b9f33f50543244bc8774c446a2172
+  category: main
+  optional: false
+- name: libgomp
+  version: 15.2.0
+  manager: conda
+  platform: win-64
+  dependencies:
+    libwinpthread: '>=12.0.0.r4.gg4f2fc60ca'
+  url: https://conda.anaconda.org/conda-forge/win-64/libgomp-15.2.0-h8ee18e1_16.conda
+  hash:
+    md5: ab8189163748f95d4cb18ea1952943c3
+    sha256: 9c86aadc1bd9740f2aca291da8052152c32dd1c617d5d4fd0f334214960649bb
   category: main
   optional: false
 - name: libgoogle-cloud
@@ -8646,6 +8684,18 @@ package:
     sha256: 84fa8061f0dbf3ec512beda59c3c090187543e67c654662e37577a10ef812934
   category: main
   optional: false
+- name: libwinpthread
+  version: 12.0.0.r4.gg4f2fc60ca
+  manager: conda
+  platform: win-64
+  dependencies:
+    ucrt: ''
+  url: https://conda.anaconda.org/conda-forge/win-64/libwinpthread-12.0.0.r4.gg4f2fc60ca-h57928b3_10.conda
+  hash:
+    md5: 8a86073cf3b343b87d03f41790d8b4e5
+    sha256: 0fccf2d17026255b6e10ace1f191d0a2a18f2d65088fd02430be17c701f8ffe0
+  category: main
+  optional: false
 - name: libxcb
   version: 1.17.0
   manager: conda
@@ -8888,6 +8938,57 @@ package:
   hash:
     md5: 723e3ccd4ef7c58ddbfeebe69abff662
     sha256: 0e848b5004a9dc7a06f459cc67c404d7fb0321bf134ec7512815afafe97960b4
+  category: main
+  optional: false
+- name: make
+  version: 4.4.1
+  manager: conda
+  platform: linux-64
+  dependencies:
+    __glibc: '>=2.17,<3.0.a0'
+    libgcc: '>=13'
+  url: https://conda.anaconda.org/conda-forge/linux-64/make-4.4.1-hb9d3cd8_2.conda
+  hash:
+    md5: 33405d2a66b1411db9f7242c8b97c9e7
+    sha256: d652c7bd4d3b6f82b0f6d063b0d8df6f54cc47531092d7ff008e780f3261bdda
+  category: main
+  optional: false
+- name: make
+  version: 4.4.1
+  manager: conda
+  platform: osx-64
+  dependencies:
+    __osx: '>=10.13'
+  url: https://conda.anaconda.org/conda-forge/osx-64/make-4.4.1-h00291cd_2.conda
+  hash:
+    md5: 59b4ad97bbb36ef5315500d5bde4bcfc
+    sha256: 5a5ab3ee828309185e0a76ca80f5da85f31d8480d923abb508ca00fe194d1b5a
+  category: main
+  optional: false
+- name: make
+  version: 4.4.1
+  manager: conda
+  platform: osx-arm64
+  dependencies:
+    __osx: '>=11.0'
+  url: https://conda.anaconda.org/conda-forge/osx-arm64/make-4.4.1-hc9fafa5_2.conda
+  hash:
+    md5: 9f44ef1fea0a25d6a3491c58f3af8460
+    sha256: 90ca65e788406d9029ae23ad4bd944a8b5353ad5f59bd6ce326f980cde46f37e
+  category: main
+  optional: false
+- name: make
+  version: 4.4.1
+  manager: conda
+  platform: win-64
+  dependencies:
+    libgcc: '>=13'
+    libwinpthread: '>=12.0.0.r4.gg4f2fc60ca'
+    ucrt: '>=10.0.20348.0'
+  url: https://conda.anaconda.org/conda-forge/win-64/make-4.4.1-h0e40799_2.conda
+  hash:
+    md5: 77ff648ad9fec660f261aa8ab0949f62
+    sha256: a810cdca3d5fa50d562cda23c0c1195b45ff5f9b0c41e0d4c8c2dd3c043ff4f2
   category: main
   optional: false
 - name: markupsafe
