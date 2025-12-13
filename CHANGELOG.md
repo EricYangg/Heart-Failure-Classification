@@ -13,7 +13,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Commit: [d9459cc](https://github.com/EricYangg/Heart-Failure-Classification/commit/d9459cc53e9dceffd34c4f8cad1af3b0d042932a)
 
 - Added conda-lock package to environment for future contributers to manage new dependencies.  
-  Issue: [Issue #20](https://github.com/UBC-MDS/data-analysis-review-2025/issues/20#issuecomment-3634696933)
+  Issue: [Issue #20](https://github.com/UBC-MDS/data-analysis-review-2025/issues/20#issuecomment-3634696933)  
   Commit: [5faa6b3](https://github.com/EricYangg/Heart-Failure-Classification/pull/87/commits/5faa6b353d22c74d8448af6bf9fa83cab4a72689)
 
 ### Changed
@@ -33,10 +33,3 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   Commit: [d9459cc](https://github.com/EricYangg/Heart-Failure-Classification/commit/d9459cc53e9dceffd34c4f8cad1af3b0d042932a)
 
 
-### Fixed
-
-- 
-
-### Removed
-
-- 
