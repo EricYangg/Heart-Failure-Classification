@@ -22,7 +22,7 @@ dependencies:
 - statsmodels=0.14.5
 - pytest=8.4.2
 - conda-lock=3.0.4
-- make=3.81
+- make=4.4.1
 - pip=25.3
 - pip:
   - altair-ally==0.1.1
