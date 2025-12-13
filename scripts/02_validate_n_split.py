@@ -11,10 +11,14 @@ import json
 import logging
 from sklearn import set_config
 from sklearn.model_selection import train_test_split
+import pandera as pa
 
 warnings.filterwarnings("ignore", category=FutureWarning, module="deepchecks")
 warnings.filterwarnings("ignore", category=UserWarning, module="deepchecks")
 warnings.filterwarnings("ignore", category=FutureWarning, module="pandera")
+import sys
+
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from src.validate_data_schema import validate_data_schema
 
 
