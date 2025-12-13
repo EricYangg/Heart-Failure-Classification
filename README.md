@@ -81,6 +81,9 @@ Copy and paste that URL into your browser to open Jupyter Notebooks.
 
 #### Running the analysis
 
+<details>
+<summary><strong>Option 1: Use Makefile</strong></summary>
+
 1. Clean the project: Open a terminal, navigate to the root of this project, and run:
 
 ```
@@ -96,11 +99,69 @@ This removes any previously generated files to start with a clean environment.
 make all
 ```
 
-This builds the project and run the entire analysis workflow.
+This builds the project and run the entire analysis workflow. The [Makefile](Makefile) defines the complete analysis pipeline and execution order of all scripts. Users can review it to understand how each stage of the workflow (data processing, modeling, and reporting) fits together.
+
+</details>
+
+<details>
+<summary><strong>Option 2: Run scripts manually</strong></summary>
+
+1. To run the analysis manually, open a terminal and run the following commands:
+
+```
+python scripts/01_download_data.py \
+--url="https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv" \
+--write_to=data/raw
+
+python scripts/02_validate_n_split.py \
+--logs-to=logs \
+--raw-data=data/raw/heart.csv \
+--data-to=data/validated \
+--seed=123
+
+python scripts/03_eda_validate.py \
+--training-data=data/validated/heart_train.csv \
+--test-data=data/validated/heart_test.csv \
+--plot-to=results/figures \
+--data-to=data/validated
+
+python scripts/04_preprocessor.py \
+--training-data=data/validated/heart_train.csv \
+--preprocessor-to=results/models \
+--seed=123
+
+python scripts/05_fit_heart_disease_model.py \
+--x-train-data=data/validated/X_train.csv \
+--y-train-data=data/validated/y_train.csv \
+--x-test-data=data/validated/X_test.csv \
+--y-test-data=data/validated/y_test.csv \
+--preprocessor=results/models/heart_preprocessor.pickle \
+--pipeline-to=results/models \
+--results-to=results/tables \
+--figures-to=results/figures \
+--seed=123 \
+--cv-folds=5
+
+quarto render reports/heart_disease_analysis.qmd --to html
+quarto render reports/heart_disease_analysis.qmd --to pdf
+```
+
+</details>
+
+
+#### Running the function tests
+
+1. To verify that each of the functions work appropriately, function tests are written in python scripts. To run these tests go to the root project directory in the terminal and write the following command:
+
+```
+pytest tests/
+```
 
 #### Clean up
 
 1. To shut down the container and clean up the resources, press `Ctrl` + `C` in the terminal where the container is running, and then run `docker compose rm`
+
+
 
 ## Contributors
 
