@@ -7,46 +7,46 @@
 all: reports/heart_disease_analysis.html reports/heart_disease_analysis.pdf
 
 # Download data
-data/raw/heart.csv : scripts/download_data.py
-	python scripts/download_data.py \
+data/raw/heart.csv : scripts/01_download_data.py
+	python scripts/01_download_data.py \
 		--url="https://epl.di.uminho.pt/~jcr/AULAS/ATP2021/datasets/heart.csv" \
 		--write_to=data/raw
 
 # Validate and split data
-logs/validation_errors.log data/validated/heart_train.csv data/validated/heart_test.csv : scripts/validate_n_split.py \
+logs/validation_errors.log data/validated/heart_train.csv data/validated/heart_test.csv : scripts/02_validate_n_split.py \
 data/raw/heart.csv
-	python scripts/validate_n_split.py \
+	python scripts/02_validate_n_split.py \
 		--logs-to=logs \
 		--raw-data=data/raw/heart.csv \
 		--data-to=data/validated \
 		--seed=123
 
 # Perform EDA and preprocessing
-results/figures/boxplots_numeric_features.png results/figures/numeric_dist_combined.png results/figures/categorical_dist_combined.png results/figures/correlation_heatmap_numeric_features.png data/validated/X_train.csv data/validated/y_train.csv data/validated/X_test.csv data/validated/y_test.csv : scripts/eda_validate.py \
+results/figures/boxplots_numeric_features.png results/figures/numeric_dist_combined.png results/figures/categorical_dist_combined.png results/figures/correlation_heatmap_numeric_features.png data/validated/X_train.csv data/validated/y_train.csv data/validated/X_test.csv data/validated/y_test.csv : scripts/03_eda_validate.py \
 data/validated/heart_train.csv \
 data/validated/heart_test.csv
-	python scripts/eda_validate.py \
+	python scripts/03_eda_validate.py \
 		--training-data=data/validated/heart_train.csv \
 		--test-data=data/validated/heart_test.csv \
 		--plot-to=results/figures \
 		--data-to=data/validated
 
 # Create preprocessor
-results/models/heart_preprocessor.pickle : scripts/preprocessor.py \
+results/models/heart_preprocessor.pickle : scripts/04_preprocessor.py \
 data/validated/heart_train.csv
-	python scripts/preprocessor.py \
+	python scripts/04_preprocessor.py \
 		--training-data=data/validated/heart_train.csv \
 		--preprocessor-to=results/models \
 		--seed=123
 
 # Fit model and generate reports
-results/tables/cv_results_df.csv results/tables/eval_confusion_matrix_logreg.csv results/tables/eval_classification_report_logreg.csv results/tables/fit_confusion_matrix_logreg.csv results/models/heart_lr_fit_pipeline.pickle results/figures/fit_confusion_matrix_logreg.png results/figures/eval_confusion_matrix_logreg.png : scripts/fit_heart_disease_model.py \
+results/tables/cv_results_df.csv results/tables/eval_confusion_matrix_logreg.csv results/tables/eval_classification_report_logreg.csv results/tables/fit_confusion_matrix_logreg.csv results/models/heart_lr_fit_pipeline.pickle results/figures/fit_confusion_matrix_logreg.png results/figures/eval_confusion_matrix_logreg.png : scripts/05_fit_heart_disease_model.py \
 data/validated/X_train.csv \
 data/validated/y_train.csv \
 data/validated/X_test.csv \
 data/validated/y_test.csv \
 results/models/heart_preprocessor.pickle
-	python scripts/fit_heart_disease_model.py \
+	python scripts/05_fit_heart_disease_model.py \
 		--x-train-data=data/validated/X_train.csv \
 		--y-train-data=data/validated/y_train.csv \
 		--x-test-data=data/validated/X_test.csv \
@@ -70,7 +70,8 @@ results/figures/numeric_dist_combined.png \
 results/tables/cv_results_df.csv \
 results/tables/eval_classification_report_logreg.csv \
 results/tables/eval_confusion_matrix_logreg.csv \
-results/tables/fit_confusion_matrix_logreg.csv
+results/tables/fit_confusion_matrix_logreg.csv \
+results/models/heart_lr_fit_pipeline.pickle
 	quarto render reports/heart_disease_analysis.qmd --to html
 	quarto render reports/heart_disease_analysis.qmd --to pdf
 
