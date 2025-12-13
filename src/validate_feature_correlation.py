@@ -24,12 +24,51 @@ def validate_feature_correlation(train_df: pd.DataFrame, label: str, categorical
     feat_feat_n_pairs : int
         Maximum number of feature-feature pairs allowed above the threshold.
     
+    Returns
+    -------
+    tuple
+        A tuple containing the results of feature-label and feature-feature correlation check objects.
+
     Raises
     ------
+    TypeError
+        If input types are incorrect.
     ValueError
         If any feature-label or feature-feature correlation exceeds the defined thresholds.
     """
 
+    # --- Input Validation Check ---
+    # Check: Types
+    if not isinstance(train_df, pd.DataFrame):
+        raise TypeError("Input 'train_df' must be a pandas DataFrame.")
+    if not isinstance(label, str):
+        raise TypeError("Input 'label' must be a string.")
+    if not isinstance(categorical_features, list):
+        raise TypeError("Input 'categorical_features' must be a list.")
+    if not isinstance(feat_lab_threshold, (int, float)):
+        raise TypeError("Input 'feat_lab_threshold' must be a number, int or float.")
+    if not isinstance(feat_feat_threshold, (int, float)):
+        raise TypeError("Input 'feat_feat_threshold' must be a number, int or float.")
+    if not isinstance(feat_feat_n_pairs, int):
+        raise TypeError("Input 'feat_feat_n_pairs' must be an integer.")
+
+    # Check: Values
+    if train_df.empty:
+        raise ValueError("Input 'train_df' cannot be empty.")
+        
+    if label not in train_df.columns:
+        raise ValueError(f"Label column '{label}' not found in the DataFrame columns.")
+        
+    if not (0 <= feat_lab_threshold <= 1):
+        raise ValueError("Input 'feat_lab_threshold' must be between 0 and 1, inclusive.")
+        
+    if not (0 <= feat_feat_threshold <= 1):
+        raise ValueError("Input 'feat_feat_threshold' must be between 0 and 1, inclusive.")
+        
+    if feat_feat_n_pairs < 0:
+        raise ValueError("Input 'feat_feat_n_pairs' cannot be negative.")
+
+    # --- Deepchecks Dataset Creation ---
     heart_train_ds = Dataset(
         train_df,
         label=label,
