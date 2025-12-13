@@ -16,7 +16,8 @@ _EXAMPLE OF ADDITIONS (REMOVE AFTER YOU ADD YOURS)_
 ### Changed
 
 - Add numeric prefixes to analysis script names to clarify and enforce their execution order.  
-  See review comment: [Issue #20](https://github.com/UBC-MDS/data-analysis-review-2025/issues/20#issuecomment-3634645454).
+  See review comment: [Issue #20](https://github.com/UBC-MDS/data-analysis-review-2025/issues/20#issuecomment-3634645454)  
+  Commit: [56a2d44](https://github.com/EricYangg/Heart-Failure-Classification/commit/56a2d44a72a065d51c79641c23e5fd22f097dff4)
 
 ### Fixed
 
