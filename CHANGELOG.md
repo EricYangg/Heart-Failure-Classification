@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
-## [Unreleased]
+## [3.0.0] - 2025-12-13
 
 ### Added
 
@@ -15,10 +15,8 @@ _EXAMPLE OF ADDITIONS (REMOVE AFTER YOU ADD YOURS)_
 
 ### Changed
 
-_EXAMPLE (REMOVE AFTER YOU ADD YOURS)_
-- License section of README.md file include both MIT and CC BY-NC_ND 4.0 licenses `Issue #37`
-- Dependencies section of README.md to include Docker, Conda, and Python
-- Feature names in the Discussion section of the analysis report to use plain English instead of dataset variable names
+- Add numeric prefixes to analysis script names to clarify and enforce their execution order.  
+  See review comment: [Issue #20](https://github.com/UBC-MDS/data-analysis-review-2025/issues/20#issuecomment-3634645454).
 
 ### Fixed
 
