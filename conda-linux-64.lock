@@ -163,7 +163,7 @@ https://repo.anaconda.com/pkgs/main/noarch/defusedxml-0.7.1-pyhd3eb1b0_0.conda#d
 https://repo.anaconda.com/pkgs/main/linux-64/distlib-0.4.0-py311hee96239_0.conda#07eafef4c625c8376915f830d6fedbcd
 https://repo.anaconda.com/pkgs/main/linux-64/executing-2.2.1-py311h06a4308_0.conda#93e88160b06d6123e3217b656a180eb2
 https://repo.anaconda.com/pkgs/main/linux-64/filelock-3.20.0-py311h06a4308_0.conda#43dcf4f10c59d80c209050fc7cf3c4cb
-https://repo.anaconda.com/pkgs/main/linux-64/fonttools-4.60.1-py311hee96239_0.conda#763267800032a232367230e972955172
+https://repo.anaconda.com/pkgs/main/linux-64/fonttools-4.61.0-py311h47b2149_0.conda#f5b19feac86bf8387ba87ec5a21a1825
 https://repo.anaconda.com/pkgs/main/linux-64/idna-3.11-py311h06a4308_0.conda#bdf5e2e716dc36f443d3973d73a3dea7
 https://repo.anaconda.com/pkgs/main/linux-64/importlib_resources-6.5.2-py311h06a4308_0.conda#b69bafa03ef0e668129dfd11a369a859
 https://repo.anaconda.com/pkgs/main/linux-64/iniconfig-2.1.0-py311h06a4308_0.conda#47d1a28d5799f0cff59cbcba977f6008
@@ -187,7 +187,7 @@ https://repo.anaconda.com/pkgs/main/linux-64/overrides-7.7.0-py311h06a4308_0.con
 https://repo.anaconda.com/pkgs/main/linux-64/packaging-25.0-py311h06a4308_1.conda#1193172ed9b43ea79f35a54ba9d4a653
 https://repo.anaconda.com/pkgs/main/linux-64/pandocfilters-1.5.1-py311h06a4308_0.conda#eb2ff9c2e6ad451225880f2036bc6c44
 https://repo.anaconda.com/pkgs/main/linux-64/parso-0.8.5-py311h06a4308_0.conda#e81a3f52a8f3821cd364dbbb2fd0cc4d
-https://repo.anaconda.com/pkgs/main/linux-64/pkginfo-1.12.0-py311h06a4308_0.conda#4b8d47374d83f2039550e159ea0b5da2
+https://repo.anaconda.com/pkgs/main/linux-64/pkginfo-1.12.1.2-py311h06a4308_0.conda#f643f6ae4b4789468da563e71a37b6f5
 https://repo.anaconda.com/pkgs/main/linux-64/platformdirs-4.5.0-py311h06a4308_0.conda#081c1f09204d5edb6812d51908651d3b
 https://repo.anaconda.com/pkgs/main/linux-64/pluggy-1.5.0-py311h06a4308_0.conda#40f6f87f97935339a088ce99b8d84d63
 https://repo.anaconda.com/pkgs/main/linux-64/prometheus_client-0.21.1-py311h06a4308_0.conda#bced8d0966125ede21774f8c0cd7d682
@@ -305,7 +305,7 @@ https://repo.anaconda.com/pkgs/main/linux-64/pydantic-2.12.4-py311h06a4308_0.con
 https://repo.anaconda.com/pkgs/main/linux-64/qtsvg-6.9.2-h75a08ff_1.conda#697db1dddc7dc96bcf5569b4cffe7d98
 https://repo.anaconda.com/pkgs/main/linux-64/scikit-learn-1.7.2-py311h86c3e14_1.conda#d31fd05bf3d8125e597b156594e4cd28
 https://repo.anaconda.com/pkgs/main/linux-64/secretstorage-3.4.0-py311h3e8c6aa_0.conda#3e2462a9343f5b81ca92c84cd3e1394d
-https://repo.anaconda.com/pkgs/main/linux-64/urllib3-2.6.0-py311h06a4308_0.conda#d0b0e9f591888ac901d455e2928f8b68
+https://repo.anaconda.com/pkgs/main/linux-64/urllib3-2.6.1-py311h06a4308_0.conda#5fe588079969bcd687209b823c6f59bc
 https://conda.anaconda.org/conda-forge/noarch/altair-5.4.1-pyhd8ed1ab_3.conda#1023b24b9c859bf5d9223a202d7e58b9
 https://repo.anaconda.com/pkgs/main/linux-64/dulwich-0.22.7-py311h4aa5aa6_0.conda#06e60d4ce9c797e49b29c31cfb0a8f97
 https://repo.anaconda.com/pkgs/main/linux-64/ipykernel-6.31.0-py311h7040dfc_0.conda#09ea404379befec67184e83acb01bd78
