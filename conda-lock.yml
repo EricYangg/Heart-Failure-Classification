@@ -3959,17 +3959,17 @@ package:
   category: main
   optional: false
 - name: fonttools
-  version: 4.60.1
+  version: 4.61.0
   manager: conda
   platform: linux-64
   dependencies:
     __glibc: '>=2.28,<3.0.a0'
-    libgcc-ng: '>=11.2.0'
+    libgcc: '>=14'
     python: '>=3.11,<3.12.0a0'
-  url: https://repo.anaconda.com/pkgs/main/linux-64/fonttools-4.60.1-py311hee96239_0.conda
+  url: https://repo.anaconda.com/pkgs/main/linux-64/fonttools-4.61.0-py311h47b2149_0.conda
   hash:
-    md5: 763267800032a232367230e972955172
-    sha256: d60fc10b69af965e4f3dbeca780cdd9afc6af927af7bdd16f6fe8045e5ceeea7
+    md5: f5b19feac86bf8387ba87ec5a21a1825
+    sha256: a35a3cf20b8531038153a848d3693ddd34ac948001c9e5e43df540bd10665c33
   category: main
   optional: false
 - name: fonttools
@@ -4001,7 +4001,7 @@ package:
   category: main
   optional: false
 - name: fonttools
-  version: 4.60.1
+  version: 4.61.0
   manager: conda
   platform: win-64
   dependencies:
@@ -4009,10 +4009,10 @@ package:
     ucrt: '>=10.0.20348.0'
     vc: '>=14.2,<15'
     vc14_runtime: '>=14.29.30133'
-  url: https://repo.anaconda.com/pkgs/main/win-64/fonttools-4.60.1-py311h02ab6af_0.conda
+  url: https://repo.anaconda.com/pkgs/main/win-64/fonttools-4.61.0-py311h02ab6af_0.conda
   hash:
-    md5: 80b5f3c7907789888bd5595d5101e72e
-    sha256: f00a26ca6cac1624c3d7e26489aa77e02a45464fc3e4b3f8a165d894e0207651
+    md5: f1af7d9fd68445932e0d701bbbf9147c
+    sha256: 429689870f83da3fca1f4a25b64c958f79eb2b24a7a59058ad4a47ca4aa50035
   category: main
   optional: false
 - name: freeglut
@@ -11290,15 +11290,15 @@ package:
   category: main
   optional: false
 - name: pkginfo
-  version: 1.12.0
+  version: 1.12.1.2
   manager: conda
   platform: linux-64
   dependencies:
     python: '>=3.11,<3.12.0a0'
-  url: https://repo.anaconda.com/pkgs/main/linux-64/pkginfo-1.12.0-py311h06a4308_0.conda
+  url: https://repo.anaconda.com/pkgs/main/linux-64/pkginfo-1.12.1.2-py311h06a4308_0.conda
   hash:
-    md5: 4b8d47374d83f2039550e159ea0b5da2
-    sha256: 6a9cd27f670b17fac26bdd0ccb53f89a7d441f908a02afe764660beca089e91c
+    md5: f643f6ae4b4789468da563e71a37b6f5
+    sha256: 4dd5d397e03d1c3644783910b28f60075b162de78db6b9ac45954581d29e4d5e
   category: main
   optional: false
 - name: pkginfo
@@ -11314,27 +11314,27 @@ package:
   category: main
   optional: false
 - name: pkginfo
-  version: 1.12.0
+  version: 1.12.1.2
   manager: conda
   platform: osx-arm64
   dependencies:
     python: '>=3.11,<3.12.0a0'
-  url: https://repo.anaconda.com/pkgs/main/osx-arm64/pkginfo-1.12.0-py311hca03da5_0.conda
+  url: https://repo.anaconda.com/pkgs/main/osx-arm64/pkginfo-1.12.1.2-py311hca03da5_0.conda
   hash:
-    md5: 2352425c06790f8511dfddb53f1341b6
-    sha256: 3374278e44193eaf0e1f3b7f15dc2ec849f6fd05a108eccd2783e5f1a8d75713
+    md5: 50d1c3d9334a40c13de3b035304509da
+    sha256: 5b7064d6db5ea5e461458ce007f89648204aa207fd245da48018500c196224d3
   category: main
   optional: false
 - name: pkginfo
-  version: 1.12.0
+  version: 1.12.1.2
   manager: conda
   platform: win-64
   dependencies:
     python: '>=3.11,<3.12.0a0'
-  url: https://repo.anaconda.com/pkgs/main/win-64/pkginfo-1.12.0-py311haa95532_0.conda
+  url: https://repo.anaconda.com/pkgs/main/win-64/pkginfo-1.12.1.2-py311haa95532_0.conda
   hash:
-    md5: 42b9bc94ff22de36a090ce14419db925
-    sha256: bba7e17515f484a2943df3fb24ebcb2d5d01d9d64142338d1749d67b37bc2c0c
+    md5: 417955d7bd89ebd8287c96c03566d4c9
+    sha256: 201dcd00016de8f0c6d7423a258109c2d9a7ab80e73580919f31d12b45bdeaec
   category: main
   optional: false
 - name: platformdirs
@@ -15761,17 +15761,17 @@ package:
   category: main
   optional: false
 - name: urllib3
-  version: 2.6.0
+  version: 2.6.1
   manager: conda
   platform: linux-64
   dependencies:
     brotlicffi: '>=1.2.0'
     pysocks: '>=1.5.6,<2.0,!=1.5.7'
     python: '>=3.11,<3.12.0a0'
-  url: https://repo.anaconda.com/pkgs/main/linux-64/urllib3-2.6.0-py311h06a4308_0.conda
+  url: https://repo.anaconda.com/pkgs/main/linux-64/urllib3-2.6.1-py311h06a4308_0.conda
   hash:
-    md5: d0b0e9f591888ac901d455e2928f8b68
-    sha256: cae9d8082e33e5d55c84fb9ab7a4f3da5e777e5654672b615c4fa8957afb8e76
+    md5: 5fe588079969bcd687209b823c6f59bc
+    sha256: fd13a678133f9fd8b4808475df14634580cfe4c31555377926f6ac8944cfe170
   category: main
   optional: false
 - name: urllib3
@@ -15789,31 +15789,31 @@ package:
   category: main
   optional: false
 - name: urllib3
-  version: 2.6.0
+  version: 2.6.1
   manager: conda
   platform: osx-arm64
   dependencies:
     brotlicffi: '>=1.2.0'
     pysocks: '>=1.5.6,<2.0,!=1.5.7'
     python: '>=3.11,<3.12.0a0'
-  url: https://repo.anaconda.com/pkgs/main/osx-arm64/urllib3-2.6.0-py311hca03da5_0.conda
+  url: https://repo.anaconda.com/pkgs/main/osx-arm64/urllib3-2.6.1-py311hca03da5_0.conda
   hash:
-    md5: 8c056f3d23e82812515ee594691b51b2
-    sha256: 7addfc5768205fff1033ee7d0e6ae6c6851b44c4a50ad177a1b1f91fe9df4602
+    md5: df9dd94c78432fb5775cd85014b9c75b
+    sha256: 75cf0a3fe1f3e2d36b38e2bf02f99b5b5fca8b94a960135ddedcf0318ab77091
   category: main
   optional: false
 - name: urllib3
-  version: 2.6.0
+  version: 2.6.1
   manager: conda
   platform: win-64
   dependencies:
     brotlicffi: '>=1.2.0'
     pysocks: '>=1.5.6,<2.0,!=1.5.7'
     python: '>=3.11,<3.12.0a0'
-  url: https://repo.anaconda.com/pkgs/main/win-64/urllib3-2.6.0-py311haa95532_0.conda
+  url: https://repo.anaconda.com/pkgs/main/win-64/urllib3-2.6.1-py311haa95532_0.conda
   hash:
-    md5: 846e926b7a16c888dc5d7d34fd2bad3a
-    sha256: b8f3fb9f66fa45aeea4fb641a7c90d9b1648e942e9c6e9881654e367121bc2f7
+    md5: f31301c5ed1175cb36181c5150f2a41f
+    sha256: cb4396b4ee5f379352d893df13550b29103625fed15c58f262b6915532684cc7
   category: main
   optional: false
 - name: utf8proc
